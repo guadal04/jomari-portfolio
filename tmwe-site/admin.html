@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin · Bookings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0b0a;--bg-2:#141210;--bg-3:#1c1a17;--line:rgba(255,255,255,.12);--text:#f4f1ec;--muted:rgba(244,241,236,.62);--gold:#e3b23c;--gold-2:#f5d77a;--lime:#c8f26b;--red:#ff9a8a;--display:'Bebas Neue',Impact,sans-serif;--sans:'Montserrat',system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:.92rem;line-height:1.5}
+  button,input,select{font-family:inherit}
+  .wrap{max-width:1280px;margin:0 auto;padding:32px 24px 80px}
+  h1{font-family:var(--display);font-weight:400;font-size:3rem;letter-spacing:.04em}
+  h1 span{color:var(--gold)}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+  .btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:999px;cursor:pointer;font-size:.82rem;transition:.25s}
+  .btn:hover{border-color:var(--gold);color:var(--gold)}
+  .btn.gold{background:var(--gold);color:#111;border-color:var(--gold);font-weight:600}
+  .btn.gold:hover{background:var(--gold-2);color:#111}
+  .btn.red:hover{border-color:var(--red);color:var(--red)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+  .stat{background:var(--bg-3);border:1px solid var(--line);padding:18px 20px}
+  .stat small{display:block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .stat strong{font-family:var(--display);font-weight:400;font-size:2.4rem;color:var(--gold);line-height:1.2}
+  .bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+  .bar input,.bar select{background:var(--bg-3);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:8px;font-size:.88rem;color-scheme:dark}
+  .bar input[type=search]{flex:1;min-width:200px}
+  .panel{background:var(--bg-3);border:1px solid var(--line);overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:820px}
+  th{text-align:left;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:14px 16px;border-bottom:1px solid var(--line);font-weight:600}
+  td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:middle}
+  tr.row{cursor:pointer}tr.row:hover td{background:rgba(227,178,60,.05)}
+  td small{display:block;color:var(--muted);font-size:.78rem}
+  .tag{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.72rem;font-weight:600;border:1px solid}
+  .Pending{color:var(--gold);border-color:var(--gold)}.Confirmed{color:var(--lime);border-color:var(--lime)}.Cancelled{color:var(--red);border-color:var(--red)}
+  .empty{padding:50px;text-align:center;color:var(--muted)}
+  .blocked{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:.82rem}
+  .chip{background:var(--bg-3);border:1px solid var(--line);padding:4px 6px 4px 12px;border-radius:999px;color:var(--text)}
+  .chip button{background:none;border:0;color:var(--red);cursor:pointer;font-size:1rem;margin-left:4px}
+  dialog{background:var(--bg-2);color:var(--text);border:1px solid var(--gold);width:min(640px,94vw);padding:0;margin:auto}
+  dialog::backdrop{background:rgba(0,0,0,.7)}
+  .dlg{padding:30px;max-height:88vh;overflow-y:auto}
+  .dlg h2{font-family:var(--display);font-weight:400;font-size:2.2rem;letter-spacing:.04em;color:var(--gold);margin-bottom:4px}
+  .kv{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;margin:18px 0;font-size:.88rem}
+  .kv dt{color:var(--muted)}.kv dd{word-break:break-word}
+  .sign{border:1px solid var(--line);padding:14px 16px;background:var(--bg);margin:14px 0;font-size:.84rem;color:var(--muted)}
+  .sign b{color:var(--text);font-family:Georgia,serif;font-style:italic;font-size:1.1rem}
+  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  #login{max-width:360px;margin:18vh auto;text-align:center}
+  #login input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--text);padding:12px 0;font-size:1rem;margin:22px 0;text-align:center}
+  #login input:focus{outline:none;border-color:var(--gold)}
+  .two{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:26px}
+  .cal-top{display:flex;justify-content:space-between;align-items:center}
+  .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+  .cd{min-height:62px;border:1px solid var(--line);padding:3px;font-size:.68rem;overflow:hidden}.cd b{color:var(--muted)}
+  .ev{display:block;background:rgba(227,178,60,.2);color:var(--gold-2);border-radius:3px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+  .ev.bl{background:rgba(255,154,138,.15);color:var(--red);cursor:default}
+  .lg{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.78rem}.lg summary{cursor:pointer}
+  .sub2{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:18px 0 8px}
+  .thumbs{display:flex;gap:6px;flex-wrap:wrap}.th{position:relative}.th img{width:64px;height:64px;object-fit:cover;display:block}
+  .th button{position:absolute;top:0;right:0;background:rgba(0,0,0,.75);color:#fff;border:0;cursor:pointer;width:20px;height:20px;line-height:1}
+  .chat{height:240px;overflow-y:auto;border:1px solid var(--line);background:var(--bg);padding:12px;display:flex;flex-direction:column;gap:8px}
+  .msg{max-width:78%;padding:8px 13px;border-radius:14px;font-size:.85rem;word-break:break-word}
+  .msg.me{align-self:flex-end;background:var(--gold);color:#111;border-bottom-right-radius:3px}
+  .msg.them{align-self:flex-start;background:var(--bg-3);border:1px solid var(--line);border-bottom-left-radius:3px}
+  .msg small{display:block;opacity:.6;font-size:.65rem;margin-top:2px}
+  .cin{display:flex;gap:8px;margin-top:10px}.cin input{flex:1;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:10px 16px;border-radius:999px}
+  @media(max-width:900px){.two{grid-template-columns:1fr}}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <h1>Admin <span>Login</span></h1>
+  <input type="password" id="pw" placeholder="Password" autocomplete="current-password">
+  <button class="btn gold" id="loginBtn">Sign in</button>
+  <p id="loginErr" style="color:var(--red);margin-top:14px;min-height:1.3em"></p>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="top">
+    <h1>Booking <span>Dashboard</span></h1>
+    <div><a class="btn" href="index.html" style="text-decoration:none;display:inline-block">View site</a> <button class="btn" id="logout">Log out</button></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><small>Total bookings</small><strong id="sAll">0</strong></div>
+    <div class="stat"><small>Pending</small><strong id="sPend">0</strong></div>
+    <div class="stat"><small>Confirmed</small><strong id="sConf">0</strong></div>
+    <div class="stat"><small>Confirmed value</small><strong id="sRev">₱0</strong></div>
+  </div>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="Search name, reference, email…">
+    <select id="f"><option value="">All statuses</option><option>Pending</option><option>Confirmed</option><option>Cancelled</option></select>
+    <select id="sort"><option value="date">Sort: Event date</option><option value="new">Sort: Newest request</option></select>
+    <button class="btn" id="csv">Export CSV</button>
+  </div>
+
+  <div class="panel">
+    <table>
+      <thead><tr><th>Ref</th><th>Event date</th><th>Client</th><th>Package</th><th>Total</th><th>Deposit</th><th>Status</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="none" hidden>No bookings yet. Requests made on the website will appear here.</div>
+  </div>
+
+  <div class="two">
+    <div class="panel" style="padding:18px"><div class="cal-top"><button class="btn" id="cp">&#8249;</button><strong id="ct" style="font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.05em"></strong><button class="btn" id="cn">&#8250;</button></div><div class="cg" id="cg"></div></div>
+    <div class="panel" style="padding:18px"><strong style="font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.05em">Notifications <span style="color:var(--muted);font-size:.8rem;font-family:var(--sans)">(demo emails)</span></strong><div id="log"></div></div>
+  </div>
+
+  <div class="blocked">
+    <strong style="color:var(--text)">Block a date</strong> (day off / unavailable):
+    <input type="date" id="bd" style="background:var(--bg-3);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:8px;color-scheme:dark">
+    <button class="btn" id="bdAdd">Block</button>
+    <span id="bdList"></span>
+  </div>
+</div>
+
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+
+<script>
+/* DEMO ONLY: this password check runs in the browser and is NOT real security.
+   For a live site, move login and booking data to a server. */
+const ADMIN_PASSWORD = 'admin123';
+const DEPOSIT = 0.3;
+/* Same tiers as the POLICY in index.html */
+const TIERS = [{days:60,pct:0},{days:30,pct:50},{days:15,pct:75},{days:0,pct:100}];
+
+const $ = id => document.getElementById(id);
+const peso = n => '₱' + Number(n).toLocaleString('en-PH');
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load = k => { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch(e) { return []; } };
+const save = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+const loadO = k => { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch(e) { return {}; } };
+const saveO = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } };
+const unread = b => (loadO('tmwe_chat')[b.ref] || []).filter(m => m.from === 'client' && !m.read).length;
+const nice = s => { const [y,m,d] = s.split('-'); return new Date(y, m-1, d).toLocaleDateString('en-PH', { weekday:'short', year:'numeric', month:'long', day:'numeric' }); };
+const stamp = s => new Date(s).toLocaleString('en-PH', { dateStyle:'medium', timeStyle:'short' });
+const daysUntil = s => { const [y,m,d] = s.split('-'); const t = new Date(); t.setHours(0,0,0,0); return Math.round((new Date(y, m-1, d) - t) / 864e5); };
+const mail = (to, subject, body, ref) => save('tmwe_log', [...load('tmwe_log'), { at:new Date().toISOString(), to, subject, body, ref }]);
+const overdue = b => !b.depositPaid && b.status !== 'Cancelled' && b.depositDue && new Date(b.depositDue) < new Date();
+const depCell = b => b.depositPaid ? `<span style="color:var(--lime)">Paid</span><small>${esc(b.payment ? b.payment.method : '')}</small>` : overdue(b) ? '<span style="color:var(--red)">Overdue</span>' : '<span style="color:var(--muted)">Unpaid</span>';
+function feeFor(b){
+  const d = daysUntil(b.date), tier = TIERS.find(t => d >= t.days);
+  const fee = tier.pct === 0 ? b.deposit : Math.round(b.total * tier.pct / 100);
+  return { d, fee, locked: d <= 14 };
+}
+
+/* login */
+function showApp(){ $('login').hidden = true; $('app').hidden = false; render(); }
+try { if (sessionStorage.getItem('tmwe_admin') === '1') showApp(); } catch(e) {}
+$('loginBtn').onclick = () => {
+  if ($('pw').value === ADMIN_PASSWORD) { try { sessionStorage.setItem('tmwe_admin','1'); } catch(e) {} showApp(); }
+  else $('loginErr').textContent = 'Incorrect password.';
+};
+$('pw').onkeydown = e => { if (e.key === 'Enter') $('loginBtn').click(); };
+$('logout').onclick = () => { try { sessionStorage.removeItem('tmwe_admin'); } catch(e) {} location.reload(); };
+
+/* list */
+function render(){
+  const all = load('tmwe_bookings'), q = $('q').value.toLowerCase(), f = $('f').value;
+  let list = all.filter(b => (!f || b.status === f) && (!q || [b.name,b.ref,b.email,b.partner].join(' ').toLowerCase().includes(q)));
+  list.sort($('sort').value === 'new' ? (a,b) => b.createdAt.localeCompare(a.createdAt) : (a,b) => a.date.localeCompare(b.date));
+  $('sAll').textContent = all.length;
+  $('sPend').textContent = all.filter(b => b.status === 'Pending').length;
+  $('sConf').textContent = all.filter(b => b.status === 'Confirmed').length;
+  $('sRev').textContent = peso(all.filter(b => b.status === 'Confirmed').reduce((t,b) => t + b.total, 0));
+  $('none').hidden = list.length > 0;
+  $('rows').innerHTML = list.map(b => `<tr class="row" data-ref="${esc(b.ref)}">
+    <td>${esc(b.ref)}</td><td>${esc(nice(b.date))}</td>
+    <td>${esc(b.name)}${b.partner ? ' &amp; ' + esc(b.partner) : ''}<small>${esc(b.email)}</small></td>
+    <td>${esc(b.packageName)}<small>${esc(b.guests)} guests${b.addons.length ? ' · ' + b.addons.length + ' add-on' + (b.addons.length > 1 ? 's' : '') : ''}</small></td>
+    <td>${peso(b.total)}</td><td>${depCell(b)}</td>
+    <td><span class="tag ${esc(b.status)}">${esc(b.status)}</span>${(b.requests || []).some(r => r.status === 'Pending') ? ' <span class="tag Pending">Request</span>' : ''}${unread(b) ? ' <span class="tag Confirmed">💬 ' + unread(b) + '</span>' : ''}</td></tr>`).join('');
+  renderCal(); renderLog();
+  const bl = load('tmwe_blocked').sort();
+  $('bdList').innerHTML = bl.map(d => `<span class="chip">${esc(nice(d))}<button data-un="${esc(d)}" title="Unblock">×</button></span>`).join(' ');
+}
+['q','f','sort'].forEach(id => $(id).addEventListener('input', render));
+window.addEventListener('storage', () => { render(); renderChat(); }); /* new bookings from the site show up live */
+
+/* details */
+/* wedding photos + chat */
+function media(b){
+  const ph = loadO('tmwe_photos')[b.ref] || [];
+  return `<div class="sub2">Wedding photos for the client (${ph.length})</div>
+  <div class="thumbs">${ph.slice(0, 30).map((x,i) => `<span class="th"><img src="${esc(x.src)}" alt=""><button data-a="phdel:${i}" title="Remove">×</button></span>`).join('')}</div>
+  <div class="acts" style="margin-top:10px"><button class="btn" data-a="phdemo">Add demo photos</button><button class="btn" data-a="phup">Upload photos</button><input type="file" id="phf" accept="image/*" multiple hidden></div>
+  <div class="sub2">Chat with client</div><div class="chat" id="chatBox"></div>
+  <div class="cin"><input id="cmA" placeholder="Type a reply…" maxlength="500" autocomplete="off"><button class="btn gold" data-a="send">Send</button></div>`;
+}
+function renderChat(){
+  const box = $('chatBox'); if (!box) return;
+  const ref = $('dlgBody').dataset.ref, o = loadO('tmwe_chat'), m = o[ref] || []; let ch = false;
+  m.forEach(x => { if (x.from === 'client' && !x.read) { x.read = true; ch = true; } });
+  if (ch) { o[ref] = m; saveO('tmwe_chat', o); render(); }
+  box.innerHTML = m.length ? m.map(x => `<div class="msg ${x.from === 'admin' ? 'me' : 'them'}">${esc(x.text)}<small>${x.from === 'admin' ? 'You' : 'Client'} · ${esc(stamp(x.at))}</small></div>`).join('') : '<p style="color:var(--muted);margin:auto;font-size:.82rem">No messages yet.</p>';
+  box.scrollTop = box.scrollHeight;
+}
+function sendAdmin(){
+  const t = $('cmA').value.trim(), ref = $('dlgBody').dataset.ref; if (!t) return;
+  const o = loadO('tmwe_chat'); o[ref] = [...(o[ref] || []), { from:'admin', text:t, at:new Date().toISOString(), read:false }]; saveO('tmwe_chat', o);
+  $('cmA').value = ''; renderChat();
+}
+const shrink = f => new Promise(res => { const r = new FileReader(); r.onerror = () => res(null);
+  r.onload = () => { const im = new Image(); im.onerror = () => res(null);
+    im.onload = () => { const k = Math.min(1, 1400 / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); res({ src:c.toDataURL('image/jpeg', .72), name:f.name.replace(/\.[^.]+$/, '') + '.jpg' }); };
+    im.src = r.result; };
+  r.readAsDataURL(f); });
+function photosReady(b){ mail('client', 'Your wedding photos are ready · ' + b.ref, `Hi ${b.name},\n\nYour wedding photos are ready! Open your booking page (status.html) to view and download them.\n\nWith love,\nThe Miracle Wedding & Events`, b.ref); }
+$('dlgBody').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'cmA') { e.preventDefault(); sendAdmin(); } });
+$('dlgBody').addEventListener('change', async e => {
+  if (e.target.id !== 'phf') return;
+  const ref = $('dlgBody').dataset.ref, b = load('tmwe_bookings').find(x => x.ref === ref), files = [...e.target.files].slice(0, 20);
+  const got = (await Promise.all(files.map(shrink))).filter(Boolean); if (!got.length) return;
+  const o = loadO('tmwe_photos'); o[ref] = [...(o[ref] || []), ...got];
+  if (!saveO('tmwe_photos', o)) return alert('Demo storage is full. Remove some photos or upload fewer. A real site stores photos on a server.');
+  photosReady(b); render(); open(ref);
+});
+function extra(b){
+  const p = b.planning || {}, R = b.requests || [];
+  return `<dl class="kv">
+    <dt>Deposit due</dt><dd>${b.depositDue ? esc(stamp(b.depositDue)) : '—'}${overdue(b) ? ' <b style="color:var(--red)">Overdue: you can release this date by cancelling</b>' : ''}</dd>
+    <dt>Payment</dt><dd>${b.payment ? esc(b.payment.method) + ' · ' + peso(b.payment.amount) + ' · ' + esc(b.payment.ref) + ' · ' + esc(stamp(b.payment.paidAt)) : 'No payment recorded'}</dd>
+    <dt>Final guests</dt><dd>${p.finalGuests ? esc(p.finalGuests) : 'Not submitted'}</dd>
+    <dt>Theme / colors</dt><dd>${esc([p.theme, p.colors].filter(Boolean).join(' · ') || '—')}</dd>
+    <dt>Entourage</dt><dd style="white-space:pre-line">${esc(p.entourage || '—')}</dd></dl>` +
+  (R.length ? '<div class="sub2">Client requests</div>' + R.map((r,i) => `<div class="sign">${esc(r.type)}${r.newDate ? ' → ' + esc(nice(r.newDate)) : ''} · ${esc(stamp(r.at))} · <b style="font-family:inherit;font-style:normal;color:var(--gold)">${esc(r.status)}</b>${r.note ? '<br>' + esc(r.note) : ''}${r.status === 'Pending' ? `<div class="acts" style="margin-top:12px"><button class="btn gold" data-a="rq:${i}:ok">Approve</button><button class="btn red" data-a="rq:${i}:no">Decline</button></div>` : ''}</div>`).join('') : '') +
+  `<div class="sub2">Internal notes (staff only)</div><textarea id="nt" style="width:100%;min-height:70px;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:10px;font-family:inherit">${esc(b.adminNotes || '')}</textarea><button class="btn" data-a="savenote" style="margin-top:8px">Save notes</button>`;
+}
+function open(ref){
+  const b = load('tmwe_bookings').find(x => x.ref === ref); if (!b) return;
+  const c = feeFor(b);
+  $('dlgBody').innerHTML = `
+    <h2>${esc(b.ref)}</h2><span class="tag ${esc(b.status)}">${esc(b.status)}</span>
+    <dl class="kv">
+      <dt>Event date</dt><dd>${esc(nice(b.date))} (${c.d >= 0 ? c.d + ' days away' : 'past'})</dd>
+      <dt>Client</dt><dd>${esc(b.name)}${b.partner ? ' &amp; ' + esc(b.partner) : ''}</dd>
+      <dt>Email</dt><dd><a style="color:var(--gold)" href="mailto:${esc(b.email)}">${esc(b.email)}</a></dd>
+      <dt>Phone</dt><dd>${esc(b.phone)}</dd>
+      <dt>Reception venue</dt><dd>${esc(b.reception || '—')}</dd>
+      <dt>Ceremony place</dt><dd>${esc(b.venue || '—')}</dd>
+      <dt>Package</dt><dd>${esc(b.packageName)}</dd>
+      <dt>Guests</dt><dd>${esc(b.guests)}</dd>
+      <dt>Add-ons</dt><dd>${b.addons.length ? esc(b.addons.join(', ')) : 'None'}</dd>
+      <dt>Estimated total</dt><dd><strong style="color:var(--gold)">${peso(b.total)}</strong></dd>
+      <dt>Deposit (${DEPOSIT*100}%)</dt><dd>${peso(b.deposit)} · ${b.depositPaid ? 'Paid' : 'Unpaid'}</dd>
+      <dt>Notes</dt><dd>${esc(b.notes || '—')}</dd>
+      <dt>Requested</dt><dd>${esc(stamp(b.createdAt))}</dd>
+    </dl>
+    <div class="sign">Booking agreement accepted. Signed: <b>${esc(b.agreement.signature)}</b><br>${esc(stamp(b.agreement.signedAt))}</div>
+    ${extra(b)}${media(b)}
+    ${b.status !== 'Cancelled' ? `<div class="sign" style="border-color:${c.locked ? 'var(--red)' : 'var(--line)'}">If cancelled today: <b style="font-family:inherit;font-style:normal;color:var(--gold)">${peso(c.fee)}</b> payable by the client${c.locked ? '. <b style="font-family:inherit;font-style:normal;color:var(--red)">Inside the 14-day no-cancellation window.</b>' : '.'}</div>` : ''}
+    <div class="acts">
+      ${b.status !== 'Cancelled' && !b.depositPaid ? '<button class="btn" data-a="remind">Send payment reminder</button>' : ''}
+      ${b.status === 'Pending' ? `<button class="btn gold" data-a="confirm">Confirm booking</button>` : ''}
+      ${b.status !== 'Cancelled' ? `<button class="btn" data-a="dep">${b.depositPaid ? 'Mark deposit unpaid' : 'Mark deposit paid'}</button><button class="btn red" data-a="cancel">Cancel booking</button>` : `<button class="btn" data-a="restore">Restore as pending</button>`}
+      <button class="btn red" data-a="del">Delete</button>
+      <button class="btn" data-a="close" style="margin-left:auto">Close</button>
+    </div>`;
+  $('dlgBody').dataset.ref = ref;
+  $('dlg').showModal(); renderChat();
+}
+$('rows').onclick = e => { const r = e.target.closest('tr.row'); if (r) open(r.dataset.ref); };
+$('dlgBody').onclick = e => {
+  const a = e.target.dataset.a; if (!a) return;
+  const ref = $('dlgBody').dataset.ref; let all = load('tmwe_bookings'); const b = all.find(x => x.ref === ref);
+  if (a === 'close') return $('dlg').close();
+  if (a === 'send') return sendAdmin();
+  if (a === 'phup') return $('phf').click();
+  if (a === 'phdemo') { const o = loadO('tmwe_photos'), have = new Set((o[ref] || []).map(x => x.src)); const add = [1,2,3,4,5,6,7,8].map(n => ({ src:'images/image' + n + '.jpg', name:'wedding-photo-' + n + '.jpg' })).filter(x => !have.has(x.src)); if (!add.length) return; o[ref] = [...(o[ref] || []), ...add]; saveO('tmwe_photos', o); photosReady(b); render(); return open(ref); }
+  if (a.startsWith('phdel:')) { const o = loadO('tmwe_photos'); (o[ref] || []).splice(+a.split(':')[1], 1); saveO('tmwe_photos', o); return open(ref); }
+  if (a === 'remind') { mail('client', 'Payment reminder · ' + ref, `Hi ${b.name},\n\nFriendly reminder: your deposit of ${peso(b.deposit)} is due${b.depositDue ? ' by ' + stamp(b.depositDue) : ''} to keep ${nice(b.date)}.\nPay anytime at status.html with your reference ${ref}.`, ref); render(); alert('Reminder sent (demo). See the Notifications panel.'); return open(ref); }
+  if (a === 'savenote') b.adminNotes = $('nt').value;
+  if (a.startsWith('rq:')) {
+    const [, i, res] = a.split(':'), r = b.requests[+i];
+    if (res === 'ok' && r.type === 'Reschedule') {
+      if (load('tmwe_bookings').some(x => x.ref !== b.ref && x.status !== 'Cancelled' && x.date === r.newDate) || load('tmwe_blocked').includes(r.newDate)) return alert('That date is no longer available.');
+      b.date = r.newDate;
+    }
+    if (res === 'ok' && r.type === 'Cancel') b.status = 'Cancelled';
+    r.status = res === 'ok' ? 'Approved' : 'Declined';
+    mail('client', r.type + ' request ' + r.status.toLowerCase() + ' · ' + ref, `Hi ${b.name},\n\nYour ${r.type.toLowerCase()} request has been ${r.status.toLowerCase()}.${r.type === 'Reschedule' && res === 'ok' ? '\nNew date: ' + nice(b.date) : ''}`, ref);
+  }
+  if (a === 'confirm') { b.status = 'Confirmed'; mail('client', 'Booking confirmed · ' + ref, `Hi ${b.name},\n\nGreat news! Your booking for ${nice(b.date)} is confirmed. We're so excited to plan your day with you.`, ref); }
+  if (a === 'dep') { b.depositPaid = !b.depositPaid; b.payment = b.depositPaid ? (b.payment || { method:'Recorded by admin', ref:'MANUAL', amount:b.deposit, paidAt:new Date().toISOString() }) : null; }
+  if (a === 'restore') b.status = 'Pending';
+  if (a === 'cancel') {
+    const c = feeFor(b);
+    if (!confirm(`Cancel ${b.ref}?\n\nUnder the cancellation policy the client owes ${peso(c.fee)}.${c.locked ? '\nThis is inside the 14-day no-cancellation window.' : ''}\n\nThe date will be released on the calendar.`)) return;
+    b.status = 'Cancelled';
+  }
+  if (a === 'del') { if (!confirm('Permanently delete this booking?')) return; all = all.filter(x => x.ref !== ref); }
+  save('tmwe_bookings', all); render();
+  a === 'del' ? $('dlg').close() : open(ref);
+};
+
+/* calendar, notifications, export */
+let cc = new Date(); cc.setDate(1);
+function renderCal(){
+  const y = cc.getFullYear(), m = cc.getMonth(), bks = load('tmwe_bookings').filter(b => b.status !== 'Cancelled'), bl = load('tmwe_blocked');
+  $('ct').textContent = cc.toLocaleDateString('en-US', { month:'long', year:'numeric' });
+  let h = ['S','M','T','W','T','F','S'].map(d => `<div style="text-align:center;color:var(--muted);font-size:.7rem">${d}</div>`).join('');
+  for (let i = 0; i < new Date(y, m, 1).getDay(); i++) h += '<div></div>';
+  for (let d = 1, n = new Date(y, m + 1, 0).getDate(); d <= n; d++) {
+    const k = y + '-' + String(m + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    h += `<div class="cd"><b>${d}</b>` + bks.filter(b => b.date === k).map(b => `<span class="ev" data-ref="${esc(b.ref)}">${esc(b.name)}</span>`).join('') + (bl.includes(k) ? '<span class="ev bl">Blocked</span>' : '') + '</div>';
+  }
+  $('cg').innerHTML = h;
+}
+$('cp').onclick = () => { cc.setMonth(cc.getMonth() - 1); renderCal(); };
+$('cn').onclick = () => { cc.setMonth(cc.getMonth() + 1); renderCal(); };
+$('cg').onclick = e => { const r = e.target.closest('.ev[data-ref]'); if (r) open(r.dataset.ref); };
+function renderLog(){
+  const l = load('tmwe_log').slice(-12).reverse();
+  $('log').innerHTML = l.length ? l.map(x => `<details class="lg"><summary>${x.to === 'admin' ? '🔔' : '✉️'} ${esc(x.subject)}<br><small style="color:var(--muted)">${x.to === 'admin' ? 'To: Admin' : 'To: Client'} · ${esc(stamp(x.at))}</small></summary><div style="white-space:pre-line;color:var(--muted);margin-top:6px">${esc(x.body)}</div></details>`).join('') : '<p class="empty" style="padding:24px 0">No notifications yet.</p>';
+}
+$('csv').onclick = () => {
+  const cell = v => { v = String(v ?? ''); if (/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
+  const rows = [['Ref','Status','Event date','Client','Partner','Email','Phone','Package','Reception venue','Guests','Add-ons','Total','Deposit paid','Requested']];
+  load('tmwe_bookings').forEach(b => rows.push([b.ref,b.status,b.date,b.name,b.partner,b.email,b.phone,b.packageName,b.reception,b.guests,b.addons.join('; '),b.total,b.depositPaid ? 'Yes' : 'No',b.createdAt]));
+  const el = document.createElement('a'); el.href = URL.createObjectURL(new Blob([rows.map(r => r.map(cell).join(',')).join('\n')], { type:'text/csv' })); el.download = 'bookings.csv'; el.click();
+};
+
+/* block dates */
+$('bdAdd').onclick = () => { const d = $('bd').value; if (!d) return; const l = load('tmwe_blocked'); if (!l.includes(d)) save('tmwe_blocked', [...l, d]); $('bd').value = ''; render(); };
+$('bdList').onclick = e => { const d = e.target.dataset.un; if (d) { save('tmwe_blocked', load('tmwe_blocked').filter(x => x !== d)); render(); } };
+</script>
+</body>
+</html>

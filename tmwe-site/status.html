@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Booking · The Miracle Wedding &amp; Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0c0b0a;--bg-2:#141210;--bg-3:#1c1a17;--line:rgba(255,255,255,.12);--text:#f4f1ec;--muted:rgba(244,241,236,.62);--gold:#e3b23c;--gold-2:#f5d77a;--lime:#c8f26b;--red:#ff9a8a;--display:'Bebas Neue',Impact,sans-serif;--sans:'Montserrat',system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:.92rem;line-height:1.55}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 80px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+  .top a{color:var(--text);text-decoration:none;font-size:.82rem;border:1px solid var(--line);padding:9px 18px;border-radius:999px}
+  .top a:hover{border-color:var(--gold);color:var(--gold)}
+  h1{font-family:var(--display);font-weight:400;font-size:3.2rem;letter-spacing:.04em;line-height:1.05}
+  h1 span,h2 span{color:var(--gold)}
+  h2{font-family:var(--display);font-weight:400;font-size:1.9rem;letter-spacing:.05em;color:var(--gold);margin-bottom:12px}
+  .lead{color:var(--muted);margin:10px 0 26px}
+  .card{background:var(--bg-3);border:1px solid var(--line);padding:26px;margin-bottom:18px}
+  label{display:block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px;font-weight:600}
+  input,select,textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--text);font-family:inherit;font-size:1rem;padding:9px 0;color-scheme:dark;border-radius:0}
+  textarea{min-height:76px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+  select option{background:var(--bg-3)}
+  .btn{margin-top:20px;background:var(--gold);color:#111;border:0;border-radius:999px;padding:13px 32px;font-weight:600;font-family:inherit;cursor:pointer;font-size:.9rem}
+  .btn:hover{background:var(--gold-2)}.btn:disabled{opacity:.5;cursor:wait}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .err{color:var(--red);min-height:1.3em;margin-top:12px;font-size:.85rem}
+  .tag{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.72rem;font-weight:600;border:1px solid;vertical-align:middle}
+  .Pending{color:var(--gold);border-color:var(--gold)}.Confirmed{color:var(--lime);border-color:var(--lime)}.Cancelled{color:var(--red);border-color:var(--red)}
+  .kv{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;margin-top:14px;font-size:.88rem}
+  .kv dt{color:var(--muted)}.kv dd{word-break:break-word}
+  .prog{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:6px 0 14px}
+  .prog i{display:block;height:100%;background:var(--gold)}
+  .ck{display:flex;gap:10px;padding:6px 0;color:var(--muted)}.ck.done{color:var(--text)}.ck b{color:var(--gold);width:18px}
+  .box{border:1px solid var(--line);background:var(--bg);padding:14px 16px;margin-top:14px;font-size:.85rem;color:var(--muted)}
+  .box.bad{border-color:var(--red);color:var(--red)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  details{border-bottom:1px solid rgba(255,255,255,.07);padding:9px 0;font-size:.85rem}
+  summary{cursor:pointer}details div{white-space:pre-line;color:var(--muted);margin-top:8px}
+  .ok{color:var(--lime);font-size:.85rem;margin-top:10px;min-height:1.2em}
+  .ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+  .ph img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;display:block;transition:.25s}.ph img:hover{opacity:.8}
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.93);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:50;padding:20px}.lb.on{display:flex}
+  .lb img{max-width:92vw;max-height:76vh;object-fit:contain}
+  .chat{height:290px;overflow-y:auto;border:1px solid var(--line);background:var(--bg);padding:12px;display:flex;flex-direction:column;gap:8px}
+  .msg{max-width:78%;padding:8px 13px;border-radius:14px;font-size:.85rem;word-break:break-word}
+  .msg.me{align-self:flex-end;background:var(--gold);color:#111;border-bottom-right-radius:3px}
+  .msg.them{align-self:flex-start;background:var(--bg-3);border:1px solid var(--line);border-bottom-left-radius:3px}
+  .msg small{display:block;opacity:.6;font-size:.65rem;margin-top:2px}
+  .cin{display:flex;gap:8px;margin-top:10px}.cin input{border:1px solid var(--line);padding:10px 16px;border-radius:999px}.cin .btn{margin:0;padding:10px 26px}
+  @media(max-width:600px){.kv,.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><strong style="font-family:var(--display);font-size:1.6rem;letter-spacing:.06em">TMWE</strong><a href="index.html">← Back to site</a></div>
+
+  <div id="lookup">
+    <h1>Track Your <span>Booking</span></h1>
+    <p class="lead">Enter the reference number from your confirmation email.</p>
+    <div class="card">
+      <label for="r" style="margin-top:0">Reference number</label><input id="r" placeholder="TMWE-XXXXX" autocomplete="off">
+      <label for="e">Email used for booking</label><input id="e" type="email">
+      <div class="err" id="err"></div>
+      <button class="btn" id="go">View my booking</button>
+    </div>
+  </div>
+
+  <div id="view" hidden></div>
+</div>
+
+<div class="lb" id="lb"><img id="lbi" alt=""><div><a class="btn" id="lbd" download style="text-decoration:none;display:inline-block;margin:0">Download</a> <button class="btn ghost" id="lbx" style="margin:0 0 0 8px">Close</button></div></div>
+
+<script>
+/* DEMO: reads the same browser storage as index.html and admin.html. A real site would use a server. */
+const TIERS = [{days:60,pct:0},{days:30,pct:50},{days:15,pct:75},{days:0,pct:100}];
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load = k => { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch(e) { return []; } };
+const save = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+const loadO = k => { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch(e) { return {}; } };
+const saveO = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } };
+const peso = n => '₱' + Number(n).toLocaleString('en-PH');
+const nice = s => { const [y,m,d] = s.split('-'); return new Date(y, m-1, d).toLocaleDateString('en-PH', { weekday:'long', year:'numeric', month:'long', day:'numeric' }); };
+const stamp = s => new Date(s).toLocaleString('en-PH', { dateStyle:'medium', timeStyle:'short' });
+const daysUntil = s => { const [y,m,d] = s.split('-'); const t = new Date(); t.setHours(0,0,0,0); return Math.round((new Date(y, m-1, d) - t) / 864e5); };
+const addDays = (s,n) => { const [y,m,d] = s.split('-'); const t = new Date(y, m-1, d); t.setDate(t.getDate() + n); return t.toLocaleDateString('en-PH', { month:'long', day:'numeric', year:'numeric' }); };
+let B = null, method = 'GCash';
+const persist = () => { const all = load('tmwe_bookings'); all[all.findIndex(b => b.ref === B.ref)] = B; save('tmwe_bookings', all); };
+const mail = (to, subject, body) => save('tmwe_log', [...load('tmwe_log'), { at:new Date().toISOString(), to, subject, body, ref:B.ref }]);
+
+const q = new URLSearchParams(location.search).get('ref'); if (q) $('r').value = q;
+$('go').onclick = () => {
+  const b = load('tmwe_bookings').find(x => x.ref.toLowerCase() === $('r').value.trim().toLowerCase() && x.email.toLowerCase() === $('e').value.trim().toLowerCase());
+  if (!b) { $('err').textContent = 'No booking found. Please check your reference number and email.'; return; }
+  B = b; $('lookup').hidden = true; $('view').hidden = false; show();
+};
+
+function show(){
+  const P = B.planning || {}, R = B.requests || [], off = B.status === 'Cancelled', d = daysUntil(B.date);
+  const steps = [['Booking agreement signed', true], ['Deposit paid', B.depositPaid], ['Booking confirmed by our team', B.status === 'Confirmed'],
+    ['Theme & colors chosen', !!(P.theme && P.colors)], ['Entourage details submitted', !!P.entourage], ['Final guest count confirmed', !!P.finalGuests]];
+  const done = steps.filter(s => s[1]).length, pax = B.pax || B.guests;
+  const pend = R.find(r => r.status === 'Pending');
+  $('view').innerHTML = `
+  <h1>${esc(B.ref)} <span class="tag ${esc(B.status)}">${esc(B.status)}</span></h1>
+  <p class="lead">${esc(nice(B.date))} · ${d >= 0 ? d + ' days to go' : 'event date has passed'}</p>
+  <div class="card"><h2>Your booking</h2><dl class="kv">
+    <dt>Package</dt><dd>${esc(B.packageName)}</dd><dt>Reception venue</dt><dd>${esc(B.reception || '—')}</dd>
+    <dt>Guests</dt><dd>${esc(B.guests)}</dd><dt>Add-ons</dt><dd>${B.addons.length ? esc(B.addons.join(', ')) : 'None'}</dd>
+    <dt>Estimated total</dt><dd><b style="color:var(--gold)">${peso(B.total)}</b></dd></dl></div>
+  ${photosCard()}
+
+  ${off ? `<div class="box bad">This booking has been cancelled.</div>` : `
+  <div class="card"><h2>Planning progress · ${done}/${steps.length}</h2><div class="prog"><i style="width:${done / steps.length * 100}%"></i></div>
+    ${steps.map(s => `<div class="ck ${s[1] ? 'done' : ''}"><b>${s[1] ? '✓' : '○'}</b>${s[0]}</div>`).join('')}</div>
+
+  <div class="card"><h2>Payments</h2><dl class="kv">
+    <dt>Deposit (30%)</dt><dd>${peso(B.deposit)} · ${B.depositPaid ? '<span style="color:var(--lime)">Paid</span>' : 'Due by ' + esc(stamp(B.depositDue))}</dd>
+    ${B.payment ? `<dt>Paid via</dt><dd>${esc(B.payment.method)} · ${esc(B.payment.ref)} · ${esc(stamp(B.payment.paidAt))}</dd>` : ''}
+    <dt>Balance</dt><dd>${peso(B.total - B.deposit)} · due ${esc(addDays(B.date, -7))}</dd></dl>
+    ${B.depositPaid ? '' : `<label>Payment method</label><select id="pm"><option>GCash</option><option>Maya</option><option>Credit/Debit Card</option><option>Bank Transfer</option></select>
+    <button class="btn" data-a="pay">Pay deposit (demo)</button><p class="ok" id="payok">Demo only: no real payment is made.</p>`}</div>
+
+  <div class="card"><h2>Event details</h2>
+    <p style="color:var(--muted)">Tell us about your day. Final guest count is due by <b style="color:var(--text)">${esc(addDays(B.date, -14))}</b>.</p>
+    <div class="row2"><div><label>Final guest count (max ${pax})</label><input id="fg" type="number" min="1" max="${pax}" value="${esc(P.finalGuests || '')}"></div>
+    <div><label>Theme / motif</label><input id="th" value="${esc(P.theme || '')}" placeholder="e.g. Garden romance"></div></div>
+    <label>Color palette</label><input id="co" value="${esc(P.colors || '')}" placeholder="e.g. Ivory, blush, gold">
+    <label>Entourage names &amp; sizes</label><textarea id="en" placeholder="Name, role, size (one per line)">${esc(P.entourage || '')}</textarea>
+    <button class="btn" data-a="plan">Save details</button><p class="ok" id="planok"></p></div>
+
+  <div class="card"><h2>Reschedule or cancel</h2>
+    ${pend ? `<div class="box">Your ${esc(pend.type.toLowerCase())} request${pend.newDate ? ' to ' + esc(nice(pend.newDate)) : ''} is pending review.</div>` : `
+    <label style="margin-top:0">Request type</label><select id="rt"><option>Reschedule</option><option>Cancel</option></select>
+    <div id="nd"><label>New date</label><input type="date" id="ndv"></div>
+    <label>Reason / note</label><textarea id="rn"></textarea>
+    <div class="box" id="rmsg"></div><button class="btn" data-a="req" id="rbtn">Submit request</button><p class="err" id="rerr"></p>`}
+    ${R.filter(r => r.status !== 'Pending').map(r => `<div class="box">${esc(r.type)} request: <b>${esc(r.status)}</b></div>`).join('')}
+  </div>`}
+
+  ${chatCard()}
+
+  <div class="card"><h2>Messages from us</h2>${(() => { const m = load('tmwe_log').filter(x => x.ref === B.ref && x.to === 'client').reverse();
+    return m.length ? m.map(x => `<details><summary>${esc(x.subject)} <small style="color:var(--muted)">· ${esc(stamp(x.at))}</small></summary><div>${esc(x.body)}</div></details>`).join('') : '<p style="color:var(--muted)">No messages yet.</p>'; })()}</div>`;
+  if ($('rt')) { ['rt','ndv'].forEach(i => $(i).addEventListener('input', policy)); policy(); }
+  renderChat();
+}
+
+/* photos */
+const photos = () => loadO('tmwe_photos')[B.ref] || [];
+function photosCard(){
+  const ph = photos();
+  return ph.length
+    ? `<div class="card"><h2>Your wedding photos · ${ph.length}</h2><div class="ph">${ph.map((x,i) => `<img src="${esc(x.src)}" alt="Wedding photo ${i + 1}" data-i="${i}">`).join('')}</div><button class="btn" data-a="dlall">Download all</button><p style="color:var(--muted);font-size:.8rem;margin-top:10px">Tap a photo to view or download it. Your browser may ask to allow multiple downloads.</p></div>`
+    : `<div class="card"><h2>Your wedding photos</h2><p style="color:var(--muted)">Your photos will appear here once our team uploads them after your event.</p></div>`;
+}
+const dl = (src, name) => { const a = document.createElement('a'); a.href = src; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+const dlAll = () => photos().forEach((x,i) => setTimeout(() => dl(x.src, x.name || 'wedding-photo-' + (i + 1) + '.jpg'), i * 450));
+function lbOpen(i){ const x = photos()[i]; $('lbi').src = x.src; $('lbd').href = x.src; $('lbd').download = x.name || 'wedding-photo-' + (i + 1) + '.jpg'; $('lb').classList.add('on'); }
+$('lbx').onclick = () => $('lb').classList.remove('on');
+$('lb').onclick = e => { if (e.target.id === 'lb') $('lb').classList.remove('on'); };
+
+/* chat */
+const chatCard = () => `<div class="card"><h2>Chat with us</h2><div class="chat" id="chat"></div><div class="cin"><input id="cm" placeholder="Type a message…" maxlength="500" autocomplete="off"><button class="btn" data-a="send">Send</button></div></div>`;
+function renderChat(){
+  const box = $('chat'); if (!box || !B) return;
+  const o = loadO('tmwe_chat'), m = o[B.ref] || []; let ch = false;
+  m.forEach(x => { if (x.from === 'admin' && !x.read) { x.read = true; ch = true; } });
+  if (ch) { o[B.ref] = m; saveO('tmwe_chat', o); }
+  box.innerHTML = m.length ? m.map(x => `<div class="msg ${x.from === 'client' ? 'me' : 'them'}">${esc(x.text)}<small>${x.from === 'client' ? 'You' : 'TMWE'} · ${esc(stamp(x.at))}</small></div>`).join('') : '<p style="color:var(--muted);margin:auto;font-size:.85rem">Say hello! Our team usually replies within a day.</p>';
+  box.scrollTop = box.scrollHeight;
+}
+function sendMsg(){
+  const t = $('cm').value.trim(); if (!t) return;
+  const o = loadO('tmwe_chat'); o[B.ref] = [...(o[B.ref] || []), { from:'client', text:t, at:new Date().toISOString(), read:false }]; saveO('tmwe_chat', o);
+  mail('admin', 'New message · ' + B.ref, `${B.name}: ${t}`);
+  $('cm').value = ''; renderChat();
+}
+$('view').onkeydown = e => { if (e.key === 'Enter' && e.target.id === 'cm') { e.preventDefault(); sendMsg(); } };
+window.addEventListener('storage', () => { if (B && $('chat')) renderChat(); });
+
+function policy(){
+  const cancel = $('rt').value === 'Cancel', d = daysUntil(B.date);
+  $('nd').style.display = cancel ? 'none' : ''; $('rbtn').disabled = false;
+  let m, bad = false;
+  if (cancel) {
+    if (d <= 14) { bad = true; m = 'Cancellations are not accepted within 14 days of the event, and the full amount remains payable (see your Booking Agreement). Please contact us directly.'; }
+    else { const t = TIERS.find(x => d >= x.days); m = 'If cancelled today you would owe ' + peso(t.pct === 0 ? B.deposit : Math.round(B.total * t.pct / 100)) + ' under the cancellation policy.'; }
+  } else if (d < 30) { bad = true; m = 'Reschedules must be requested at least 30 days before the event. Please contact us directly.'; }
+  else m = 'One reschedule is allowed, subject to availability of your new date.';
+  $('rmsg').textContent = m; $('rmsg').className = 'box' + (bad ? ' bad' : ''); $('rbtn').disabled = bad;
+}
+
+$('view').onclick = e => {
+  if (e.target.matches('.ph img')) return lbOpen(+e.target.dataset.i);
+  const a = e.target.dataset.a; if (!a) return;
+  if (a === 'dlall') return dlAll();
+  if (a === 'send') return sendMsg();
+  if (a === 'pay') {
+    const btn = e.target; method = $('pm').value; btn.disabled = true; btn.textContent = 'Processing…';
+    setTimeout(() => {
+      B.depositPaid = true; B.payment = { method, ref:'PAY-' + Math.random().toString(36).slice(2, 8).toUpperCase(), amount:B.deposit, paidAt:new Date().toISOString() };
+      persist();
+      mail('client', 'Payment received · ' + B.ref, `Hi ${B.name},\n\nWe received your deposit of ${peso(B.deposit)} via ${method}.\nPayment ref: ${B.payment.ref}\n\nThank you! We'll confirm your booking shortly.`);
+      mail('admin', 'Deposit paid · ' + B.ref, `${B.name} paid the deposit (${peso(B.deposit)}) via ${method}.`);
+      show();
+    }, 1200);
+  }
+  if (a === 'plan') {
+    const fg = +$('fg').value;
+    if (fg && (fg < 1 || fg > (B.pax || B.guests))) { $('planok').style.color = 'var(--red)'; $('planok').textContent = 'Guest count must be between 1 and ' + (B.pax || B.guests) + '.'; return; }
+    B.planning = { finalGuests:fg || '', theme:$('th').value.trim(), colors:$('co').value.trim(), entourage:$('en').value.trim() };
+    persist(); mail('admin', 'Event details updated · ' + B.ref, `${B.name} updated their event details (final guests: ${B.planning.finalGuests || 'not set'}).`);
+    show(); $('planok').textContent = 'Saved ✓';
+  }
+  if (a === 'req') {
+    const type = $('rt').value, nd = $('ndv').value;
+    if (type === 'Reschedule') {
+      if (!nd) { $('rerr').textContent = 'Please choose a new date.'; return; }
+      if (daysUntil(nd) < 14) { $('rerr').textContent = 'Please choose a date at least 14 days from today.'; return; }
+      const taken = load('tmwe_bookings').some(b => b.status !== 'Cancelled' && b.date === nd) || load('tmwe_blocked').includes(nd);
+      if (taken) { $('rerr').textContent = 'Sorry, that date is not available.'; return; }
+    }
+    B.requests = [...(B.requests || []), { type, newDate:type === 'Reschedule' ? nd : '', note:$('rn').value.trim(), at:new Date().toISOString(), status:'Pending' }];
+    persist(); mail('admin', type + ' request · ' + B.ref, `${B.name} requested to ${type.toLowerCase()}${nd && type === 'Reschedule' ? ' to ' + nd : ''}. Review it in the dashboard.`);
+    mail('client', type + ' request received · ' + B.ref, `Hi ${B.name},\n\nWe received your ${type.toLowerCase()} request and will review it under your Booking Agreement. We'll email you with the result.`);
+    show();
+  }
+};
+</script>
+</body>
+</html>
