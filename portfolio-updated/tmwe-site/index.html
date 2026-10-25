@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMWE — The Miracle Wedding &amp; Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     BRAND TOKENS — edit colors & fonts here
+     ========================================================= */
+  :root{
+    --bg:#0c0b0a;
+    --bg-2:#141210;
+    --bg-3:#1c1a17;
+    --line:rgba(255,255,255,.12);
+    --text:#f4f1ec;
+    --muted:rgba(244,241,236,.62);
+    --gold:#e3b23c;
+    --gold-2:#f5d77a;
+    --lime:#c8f26b;
+    --pill:#8f8b86;
+    --display:'Bebas Neue', 'Oswald', Impact, 'Arial Narrow', sans-serif;
+    --serif:'Libre Caslon Text', Georgia, serif;
+    --sans:'Montserrat', system-ui, sans-serif;
+    --max:1320px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+  .container{width:100%;max-width:var(--max);margin:0 auto;padding:0 48px}
+  section{padding:120px 0;position:relative}
+
+  .kicker{font-family:var(--serif);font-size:clamp(.95rem,1.4vw,1.35rem);letter-spacing:.04em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:10px}
+  .kicker.gold{color:var(--gold)}
+  .title{font-family:var(--display);font-weight:400;font-size:clamp(3rem,6.5vw,6rem);line-height:.92;letter-spacing:.01em;text-transform:uppercase}
+  .title .gold{color:var(--gold)}
+  .caps-copy{font-weight:600;font-size:.82rem;line-height:1.55;text-transform:uppercase;text-align:justify;letter-spacing:.02em;color:var(--text)}
+  .copy{color:var(--muted);font-size:1rem}
+
+  .pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 44px;border-radius:999px;background:rgba(160,156,150,.75);color:#fff;font-size:1.05rem;font-weight:400;border:0;cursor:pointer;transition:background .3s,transform .3s;backdrop-filter:blur(6px)}
+  .pill:hover{background:var(--gold);color:#111;transform:translateY(-2px)}
+  .pill.solid{background:var(--gold);color:#111;font-weight:600}
+  .pill.solid:hover{background:var(--gold-2)}
+  .bookmark{width:62px;height:62px;border-radius:50%;background:var(--lime);display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;transition:transform .3s,box-shadow .3s;flex-shrink:0}
+  .bookmark:hover{transform:scale(1.08);box-shadow:0 0 0 8px rgba(200,242,107,.18)}
+  .bookmark svg{width:24px;height:24px;fill:#fff}
+  .bookmark.saved svg{fill:#1b2b05}
+
+  /* ================= NAV ================= */
+  .nav{position:fixed;inset:0 0 auto 0;z-index:100;padding:26px 0;transition:all .4s}
+  .nav.scrolled{background:rgba(12,11,10,.88);backdrop-filter:blur(12px);padding:12px 0;border-bottom:1px solid var(--line)}
+  .nav .container{display:flex;align-items:center;justify-content:space-between;gap:30px}
+  .logo{position:relative;display:inline-block;line-height:1}
+  .logo .big{font-family:var(--serif);font-weight:700;font-size:3.6rem;letter-spacing:-.02em;color:#fff;display:block;line-height:.9}
+  .logo .small{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);background:var(--bg);font-family:var(--serif);font-weight:700;font-size:.72rem;white-space:nowrap;letter-spacing:-.01em;padding:2px 0;text-align:center}
+  .nav.scrolled .logo .big{font-size:2.6rem}
+  .nav.scrolled .logo .small{font-size:.52rem}
+  .logo .small{background:transparent;text-shadow:0 0 6px #000,0 0 3px #000}
+  .nav-links{display:flex;list-style:none;gap:clamp(30px,6vw,110px);align-items:center}
+  .nav-links a{font-size:1.15rem;color:#fff;position:relative;padding:4px 0}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--gold);transition:width .3s}
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+  .nav-icons{display:flex;gap:18px;align-items:center}
+  .nav-icons button{background:none;border:0;cursor:pointer;color:#fff;display:flex}
+  .nav-icons svg{width:28px;height:28px}
+  .nav-icons .menu-toggle{display:none;background:none;border:0;width:30px;height:22px;position:relative;cursor:pointer}
+  .menu-toggle span{position:absolute;left:0;width:100%;height:2px;background:#fff;transition:.3s}
+  .menu-toggle span:nth-child(1){top:0}.menu-toggle span:nth-child(2){top:10px}.menu-toggle span:nth-child(3){top:20px}
+
+  .search-bar{position:fixed;top:0;left:0;right:0;z-index:150;background:rgba(12,11,10,.97);padding:30px 48px;transform:translateY(-100%);transition:transform .4s;display:flex;gap:16px;align-items:center}
+  .search-bar.open{transform:none}
+  .search-bar input{flex:1;background:transparent;border:0;border-bottom:1px solid var(--line);color:#fff;font-size:1.4rem;padding:10px 0;font-family:var(--sans)}
+  .search-bar input:focus{outline:none;border-color:var(--gold)}
+  .search-bar button{background:none;border:0;color:#fff;font-size:2rem;cursor:pointer}
+
+  /* ================= HERO ================= */
+  .hero{position:relative;min-height:100vh;padding:150px 0 70px;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity 1.2s ease,transform 6s ease}
+  .hero-bg img.on{opacity:1;transform:scale(1)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,7,6,.88) 0%,rgba(8,7,6,.6) 45%,rgba(8,7,6,.45) 100%),linear-gradient(0deg,rgba(8,7,6,.7),transparent 40%)}
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:40px;align-items:center}
+  .hero-text .title{margin-bottom:34px}
+  .hero-text .caps-copy{max-width:560px;margin-bottom:30px}
+  .hero-cta{display:flex;gap:22px;align-items:center}
+
+  .stage{position:relative;height:620px;margin-right:-48px}
+  .track{position:absolute;top:0;left:0;height:100%;display:flex;gap:34px;transition:transform 1s cubic-bezier(.7,0,.2,1);will-change:transform}
+  .card{position:relative;width:440px;height:290px;flex-shrink:0;overflow:hidden;cursor:pointer;box-shadow:0 25px 60px rgba(0,0,0,.55);transition:transform .9s ease,filter .9s ease,opacity .9s ease}
+  .card:nth-child(odd){align-self:flex-start}
+  .card:nth-child(even){align-self:flex-end;margin-left:-230px}
+  .card img{width:100%;height:100%;object-fit:cover;transition:transform 1s}
+  .card:hover img{transform:scale(1.06)}
+  .card .tag{position:absolute;left:16px;bottom:14px;font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;opacity:0;transform:translateY(10px);transition:.4s;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+  .card:hover .tag,.card.active .tag{opacity:1;transform:none}
+  .card::after{content:"";position:absolute;inset:0;border:2px solid transparent;transition:border-color .4s}
+  .card.active::after{border-color:var(--gold)}
+  .card:not(.active){filter:brightness(.82)}
+  /* cards that have slid past blur + fade out so they never cover the headline */
+  .card.past{opacity:0;filter:blur(16px) brightness(.5);transform:scale(.85) translateX(-60px);pointer-events:none}
+
+  .hero-controls{position:relative;z-index:2;display:flex;align-items:center;gap:30px;margin-top:40px;padding-left:min(36%,520px)}
+  .arrow{width:86px;height:86px;border-radius:50%;border:2px solid #fff;background:transparent;color:#fff;font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;flex-shrink:0}
+  .arrow:hover{background:#fff;color:#111}
+  .arrow svg{width:22px;height:22px}
+  .progress{flex:1;height:6px;background:#fff;border-radius:6px;position:relative;margin-left:10px}
+  .progress::after{content:"";position:absolute;right:-6px;top:50%;transform:translateY(-50%);border-left:10px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .progress span{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold-2));width:0;transition:width .9s ease}
+  .counter{font-family:var(--display);font-size:5.2rem;line-height:.8;min-width:96px;text-align:right}
+
+  /* ================= MARQUEE ================= */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--bg-2)}
+  .marquee-track{display:flex;gap:60px;width:max-content;animation:scroll 32s linear infinite}
+  .marquee-track span{font-family:var(--display);font-size:2.4rem;letter-spacing:.06em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(244,241,236,.55)}
+  .marquee-track span.fill{color:var(--gold);-webkit-text-stroke:0}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ================= ABOUT ================= */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center}
+  .about-media{position:relative;height:640px}
+  .about-media .m1{position:absolute;left:0;top:0;width:66%;height:100%;object-fit:cover}
+  .about-media .m2{position:absolute;right:0;bottom:60px;width:50%;height:46%;object-fit:cover;border:8px solid var(--bg);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .about-media .badge{position:absolute;right:30px;top:40px;width:150px;height:150px;border-radius:50%;background:var(--gold);color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:spin 18s linear infinite}
+  .about-media .badge strong{font-family:var(--display);font-size:3.4rem;line-height:.9;animation:spin 18s linear infinite reverse}
+  .about-media .badge small{font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;animation:spin 18s linear infinite reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .about-text .title{margin-bottom:28px}
+  .about-text .copy{margin-bottom:18px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;border-top:1px solid var(--line);padding-top:34px}
+  .stat strong{font-family:var(--display);font-size:3.6rem;line-height:1;color:var(--gold);display:block}
+  .stat span{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  /* ================= SERVICES ================= */
+  .services{background:var(--bg-2)}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:64px;flex-wrap:wrap}
+  .head .copy{max-width:420px}
+  .svc-list{border-top:1px solid var(--line)}
+  .svc{display:grid;grid-template-columns:90px 1fr 1.1fr 60px;gap:30px;align-items:center;padding:34px 0;border-bottom:1px solid var(--line);position:relative;cursor:default;transition:padding .4s}
+  .svc .num{font-family:var(--display);font-size:2rem;color:var(--muted)}
+  .svc h3{font-family:var(--display);font-weight:400;font-size:clamp(2rem,3.4vw,3.2rem);line-height:1;letter-spacing:.01em;transition:color .3s}
+  .svc p{color:var(--muted);font-size:.95rem}
+  .svc .go{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:.3s}
+  .svc .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;transition:transform .3s}
+  .svc .peek{position:absolute;right:120px;top:50%;width:240px;height:160px;object-fit:cover;transform:translateY(-50%) scale(.85) rotate(-4deg);opacity:0;pointer-events:none;transition:.45s;z-index:2;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+  .svc:hover h3{color:var(--gold)}
+  .svc:hover .go{background:var(--gold);border-color:var(--gold)}
+  .svc:hover .go svg{stroke:#111;transform:rotate(-45deg)}
+  .svc:hover .peek{opacity:1;transform:translateY(-50%) scale(1) rotate(-4deg)}
+
+  /* ================= PACKAGES ================= */
+  .pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+  .pk{position:relative;min-height:600px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:40px 36px;border:1px solid var(--line)}
+  .pk > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s;z-index:0}
+  .pk::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,9,8,.15) 0%,rgba(10,9,8,.72) 45%,rgba(10,9,8,.96) 100%)}
+  .pk:hover > img{transform:scale(1.07)}
+  .pk > *:not(img){position:relative;z-index:2}
+  .pk .lbl{font-family:var(--serif);text-transform:uppercase;font-size:.85rem;letter-spacing:.08em;color:var(--gold)}
+  .pk h3{font-family:var(--display);font-weight:400;font-size:3.4rem;line-height:1;margin:4px 0 6px}
+  .pk .price{font-family:var(--display);font-size:2.3rem;color:#fff}
+  .pk .price small{font-family:var(--sans);font-size:.75rem;color:var(--muted);letter-spacing:.12em;margin-left:6px}
+  .pk ul{list-style:none;margin:20px 0 28px}
+  .pk li{font-size:.9rem;color:var(--muted);padding:7px 0 7px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.07)}
+  .pk li::before{content:"";position:absolute;left:0;top:15px;width:12px;height:2px;background:var(--gold)}
+  .pk .pill{height:48px;width:100%}
+  .pk.featured{border-color:var(--gold)}
+  .pk .ribbon{position:absolute;top:24px;right:24px;z-index:2;background:var(--lime);color:#1b2b05;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;border-radius:999px}
+
+  /* ================= GALLERY ================= */
+  .gallery{background:var(--bg-2)}
+  .filters{display:flex;gap:12px;flex-wrap:wrap}
+  .filters button{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 22px;border-radius:999px;cursor:pointer;font-size:.85rem;transition:.3s}
+  .filters button.on,.filters button:hover{background:var(--gold);color:#111;border-color:var(--gold)}
+  .masonry{columns:3;column-gap:20px}
+  .m-item{break-inside:avoid;margin-bottom:20px;position:relative;overflow:hidden;cursor:zoom-in;transition:opacity .4s,transform .4s}
+  .m-item img{width:100%;transition:transform .9s}
+  .m-item:hover img{transform:scale(1.05)}
+  .m-item figcaption{position:absolute;inset:auto 0 0 0;padding:40px 20px 16px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;opacity:0;transform:translateY(10px);transition:.4s}
+  .m-item:hover figcaption{opacity:1;transform:none}
+  .m-item.hide{display:none}
+
+  .lightbox{position:fixed;inset:0;z-index:300;background:rgba(5,5,4,.95);display:none;align-items:center;justify-content:center}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:88vw;max-height:84vh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .lb-btn{position:absolute;background:none;border:2px solid #fff;color:#fff;width:60px;height:60px;border-radius:50%;cursor:pointer;font-size:1.3rem;transition:.3s}
+  .lb-btn:hover{background:#fff;color:#111}
+  .lb-close{top:28px;right:28px;border:0;font-size:2.4rem}
+  .lb-prev{left:28px;top:50%;transform:translateY(-50%)}
+  .lb-next{right:28px;top:50%;transform:translateY(-50%)}
+
+  /* ================= TESTIMONIAL ================= */
+  .quote-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
+  .quote-wrap img{width:100%;height:620px;object-fit:cover}
+  .q-mark{font-family:var(--serif);font-size:9rem;line-height:.6;color:var(--gold);display:block;height:60px}
+  .q-slide{display:none;animation:fade .8s ease}
+  .q-slide.on{display:block}
+  .q-slide blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.55;margin:20px 0 28px}
+  .q-slide cite{font-style:normal;font-family:var(--display);font-size:1.6rem;letter-spacing:.05em;color:var(--gold)}
+  .q-slide cite small{display:block;font-family:var(--sans);font-size:.75rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .q-nav{display:flex;gap:14px;margin-top:40px}
+  .q-nav .arrow{width:62px;height:62px}
+  @keyframes fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* ================= CTA ================= */
+  .cta{padding:170px 0;text-align:center;overflow:hidden}
+  .cta > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cta::before{content:"";position:absolute;inset:0;background:rgba(8,7,6,.62);z-index:1}
+  .cta .container{position:relative;z-index:2}
+  .cta .title{font-size:clamp(3.4rem,9vw,8.5rem);margin:6px 0 30px}
+
+  /* ================= CONTACT ================= */
+  .contact-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:90px}
+  .info{margin-top:40px;display:grid;gap:26px}
+  .info div span{display:block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .info div p{font-size:1.1rem}
+  .form{background:var(--bg-3);padding:50px;border:1px solid var(--line)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .field{margin-bottom:26px}
+  .field label{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600}
+  .field input,.field select,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--text);font-family:var(--sans);font-size:1rem;padding:10px 0;border-radius:0;color-scheme:dark}
+  .field select option{background:var(--bg-3)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+  .field textarea{min-height:100px;resize:vertical}
+  .form .pill{width:100%}
+  .success{display:none;text-align:center;padding:60px 0}
+  .success .title{font-size:4rem;color:var(--gold)}
+
+  /* ================= FOOTER ================= */
+  footer{border-top:1px solid var(--line);padding:80px 0 30px;background:var(--bg)}
+  .f-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:50px;margin-bottom:60px}
+  footer h4{font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.05em;color:var(--gold);margin-bottom:16px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:9px;color:var(--muted);font-size:.92rem}
+  footer li a:hover{color:var(--gold)}
+  footer .copy{margin-top:18px;max-width:340px;font-size:.92rem}
+  .socials{display:flex;gap:12px;margin-top:22px}
+  .socials a{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:.3s}
+  .socials a:hover{background:var(--gold);border-color:var(--gold);color:#111}
+  .socials svg{width:17px;height:17px;fill:currentColor}
+  .f-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.8rem;color:var(--muted)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s}
+  .reveal.visible{opacity:1;transform:none}
+  .hero-text > *{animation:fade 1s ease both}
+  .hero-text > *:nth-child(2){animation-delay:.15s}
+  .hero-text > *:nth-child(3){animation-delay:.3s}
+  .hero-text > *:nth-child(4){animation-delay:.45s}
+
+  .toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:var(--lime);color:#1b2b05;font-weight:600;padding:14px 26px;border-radius:999px;z-index:400;transition:transform .4s;font-size:.9rem}
+  .toast.show{transform:translate(-50%,0)}
+
+
+  /* ================= BOOKING ================= */
+  .booking{background:var(--bg-2)}
+  .bk-wrap{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start}
+  .bk-main{background:var(--bg-3);border:1px solid var(--line);padding:40px}
+  .bk-steps{display:flex;gap:8px;margin-bottom:36px;border-bottom:1px solid var(--line)}
+  .bk-steps button{flex:1;background:none;border:0;color:var(--muted);font-family:var(--display);font-size:1.3rem;letter-spacing:.05em;padding:0 0 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;text-align:left}
+  .bk-steps button span{color:var(--gold);margin-right:8px}
+  .bk-steps button.on{color:var(--text);border-color:var(--gold)}
+  .bk-panel{display:none}.bk-panel.on{display:block;animation:fade .5s ease}
+  .bk-panel h3{font-family:var(--display);font-weight:400;font-size:2.2rem;line-height:1.1;margin-bottom:4px}
+  .bk-panel > .copy{margin-bottom:24px;font-size:.92rem}
+  .opt{display:flex;gap:16px;align-items:center;border:1px solid var(--line);padding:14px 16px;margin-bottom:12px;cursor:pointer;transition:.3s}
+  .opt:hover{border-color:rgba(227,178,60,.5)}
+  .opt.sel{border-color:var(--gold);background:rgba(227,178,60,.07)}
+  .opt img{width:96px;height:72px;object-fit:cover;flex-shrink:0}
+  .opt .t{flex:1}
+  .opt .t strong{display:block;font-family:var(--display);font-weight:400;font-size:1.6rem;line-height:1.1}
+  .opt .t small{color:var(--muted);font-size:.82rem}
+  .opt .pr{font-family:var(--display);font-size:1.5rem;color:var(--gold);white-space:nowrap}
+  .opt .tick{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#111}
+  .opt.sel .tick{background:var(--gold);border-color:var(--gold)}
+  .opt.sel .tick::after{content:"✓"}
+  .sub{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:26px 0 12px}
+  .guest-row{display:flex;align-items:center;gap:22px}
+  .guest-row input{flex:1;accent-color:var(--gold)}
+  .guest-row strong{font-family:var(--display);font-weight:400;font-size:3rem;color:var(--gold);min-width:84px;text-align:right;line-height:1}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .cal-head strong{font-family:var(--display);font-weight:400;font-size:1.9rem;letter-spacing:.04em}
+  .cal-head button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;color:#fff;cursor:pointer;font-size:1.2rem;transition:.3s}
+  .cal-head button:hover:not(:disabled){background:var(--gold);color:#111;border-color:var(--gold)}
+  .cal-head button:disabled{opacity:.3;cursor:not-allowed}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .dow{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center;padding-bottom:6px;font-weight:600}
+  .day{aspect-ratio:1;border:1px solid var(--line);background:transparent;color:var(--text);font-family:var(--sans);font-size:.95rem;transition:.2s}
+  .day.empty{border:0}
+  .day.ok{cursor:pointer;border-color:rgba(200,242,107,.4)}
+  .day.ok:hover{border-color:var(--gold);background:rgba(227,178,60,.14)}
+  .day.off{color:rgba(244,241,236,.25);cursor:not-allowed;border-color:transparent;background:rgba(255,255,255,.03)}
+  .day.booked{background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 4px,transparent 4px 8px);text-decoration:line-through}
+  .day.sel{background:var(--gold);color:#111;font-weight:700;border-color:var(--gold)}
+  .legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-size:.78rem;color:var(--muted)}
+  .legend i{display:inline-block;width:14px;height:14px;margin-right:7px;vertical-align:-2px;border:1px solid var(--line)}
+  .bk-nav{display:flex;justify-content:space-between;gap:16px;margin-top:34px}
+  .bk-nav .pill{width:auto;min-width:150px}
+  .bk-err{color:#ff9a8a;font-size:.85rem;margin-top:14px;min-height:1.3em}
+  .bk-sum{background:var(--bg);border:1px solid var(--gold);padding:30px;position:sticky;top:110px}
+  .bk-sum h4{font-family:var(--display);font-weight:400;font-size:1.8rem;letter-spacing:.05em;color:var(--gold);margin-bottom:10px}
+  .ln{display:flex;justify-content:space-between;gap:14px;font-size:.88rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);color:var(--muted)}
+  .ln b{color:var(--text);font-weight:500;text-align:right}
+  .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px}
+  .tot strong{font-family:var(--display);font-weight:400;font-size:2.6rem;color:var(--gold);line-height:1}
+  .bk-note{font-size:.74rem;color:var(--muted);margin-top:12px;line-height:1.5}
+  .bk-done{display:none;text-align:center;padding:50px 0}
+  .bk-done .title{font-size:4rem;color:var(--gold);margin-bottom:12px}
+  .bk-done .ref{font-family:var(--display);font-size:2rem;letter-spacing:.08em;margin-top:14px}
+  @media (max-width:1150px){.bk-wrap{grid-template-columns:1fr}.bk-sum{position:static}}
+  @media (max-width:600px){.bk-main{padding:24px 16px}.opt img{display:none}.bk-steps button{font-size:0}.bk-steps button span{font-size:1.4rem;margin:0}.guest-row strong{font-size:2.2rem;min-width:64px}.bk-nav .pill{min-width:0;flex:1}}
+
+
+  .agree{margin-top:34px;border-top:1px solid var(--line);padding-top:26px}
+  .agree h5{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.05em;color:var(--gold);margin-bottom:12px}
+  .agree-box{max-height:230px;overflow-y:auto;border:1px solid var(--line);background:var(--bg);padding:16px 18px;font-size:.82rem;line-height:1.65;color:var(--muted);margin-bottom:18px}
+  .agree-box p{margin-bottom:10px}.agree-box b{color:var(--text)}
+  .agree-box .warn{color:var(--gold-2)}
+  .chk{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;cursor:pointer;margin-bottom:22px;line-height:1.5}
+  .chk input{width:auto;margin-top:4px;accent-color:var(--gold)}
+
+  .pay{max-width:480px;margin:28px auto 0;border:1px solid var(--line);padding:24px;text-align:center}
+  .pay h5{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.05em;color:var(--gold)}
+  .pm{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 18px}
+  .pm button{background:transparent;border:1px solid var(--line);color:var(--text);padding:12px;cursor:pointer;font-family:var(--sans);transition:.25s}
+  .pm button.on{border-color:var(--gold);background:rgba(227,178,60,.12);color:var(--gold)}
+  .mail{max-width:480px;margin:18px auto 0;text-align:left;border:1px solid var(--line);padding:12px 16px;font-size:.84rem;color:var(--muted)}
+  .mail summary{cursor:pointer;color:var(--gold)}.mail div{white-space:pre-line;margin-top:10px}
+  /* ================= RESPONSIVE ================= */
+  @media (max-width:1150px){
+    .hero-inner{grid-template-columns:1fr}
+    .stage{height:460px;margin-right:-48px}
+    .card{width:360px;height:240px}
+    .card:nth-child(even){margin-left:-180px}
+    .hero-controls{padding-left:0}
+    .about-grid,.contact-grid,.quote-wrap{grid-template-columns:1fr;gap:60px}
+    .pk-grid{grid-template-columns:1fr 1fr}
+    .f-grid{grid-template-columns:1fr 1fr}
+    .svc .peek{display:none}
+  }
+  @media (max-width:860px){
+    .container{padding:0 24px}
+    .nav-icons .menu-toggle{display:block;z-index:130}
+    .nav-links{position:fixed;inset:0;background:rgba(12,11,10,.98);flex-direction:column;justify-content:center;gap:34px;opacity:0;pointer-events:none;transition:opacity .4s}
+    .nav-links a{font-family:var(--display);font-size:2.6rem;letter-spacing:.04em}
+    .nav.open .nav-links{opacity:1;pointer-events:auto}
+    .nav.open .menu-toggle span:nth-child(1){transform:rotate(45deg);top:10px}
+    .nav.open .menu-toggle span:nth-child(2){opacity:0}
+    .nav.open .menu-toggle span:nth-child(3){transform:rotate(-45deg);top:10px}
+    .nav-icons{margin-left:auto}
+    .logo .big{font-size:2.6rem}.logo .small{font-size:.52rem}
+    .stage{margin-right:-24px}
+    .svc{grid-template-columns:50px 1fr 52px}
+    .svc p{display:none}
+    .masonry{columns:2}
+    .quote-wrap img{height:420px}
+    .arrow{width:62px;height:62px}
+    .counter{font-size:3.6rem;min-width:70px}
+  }
+  @media (max-width:600px){
+    .container{padding:0 16px}
+    section{padding:84px 0}
+    .hero{padding-top:120px}
+    .stage{height:400px;margin-right:-16px}
+    .card{width:260px;height:180px}
+    .card:nth-child(even){margin-left:-130px}
+    .hero-controls{gap:14px}
+    .arrow{width:50px;height:50px}
+    .counter{font-size:2.8rem;min-width:54px}
+    .pill{padding:0 26px;height:48px;font-size:.95rem}
+    .pk-grid,.row,.f-grid{grid-template-columns:1fr}
+    .row{gap:0}
+    .pk{min-height:540px}
+    .about-media{height:440px}
+    .about-media .badge{width:110px;height:110px;right:10px}
+    .about-media .badge strong{font-size:2.4rem}
+    .stats{grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .stat strong{font-size:2.6rem}
+    .masonry{columns:1}
+    .form{padding:30px 20px}
+    .lb-prev{left:8px}.lb-next{right:8px}
+  }
+</style>
+</head>
+<body>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-bar" id="searchBar">
+  <input type="text" placeholder="Search packages, venues, services…" aria-label="Search">
+  <button id="searchClose" aria-label="Close search">&times;</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <a href="#home" class="logo" aria-label="The Miracle Wedding & Events home">
+      <span class="big">TMWE</span>
+      <span class="small">THE MIRACLE WEDDING &amp; EVENTS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#booking">Book Now</a></li>
+      <li><a href="status.html">My Booking</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5.5 5.5"/></svg></button>
+      <button aria-label="Account"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7" r="5"/><path d="M2 23c0-5.5 4.5-9 10-9s10 3.5 10 9z"/></svg></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="kicker">Wedding Occasions · Philippines</span>
+        <h1 class="title">Forever<br>Begins Here</h1>
+        <p class="caps-copy">Where timeless elegance meets the beauty of your love story. Discover thoughtfully curated wedding occasions created to turn meaningful moments into unforgettable memories—from the intimate exchange of vows to an evening of celebration, laughter, and love shared with those who matter most</p>
+        <div class="hero-cta">
+          <button class="bookmark" id="saveBtn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M6 2h12a1 1 0 011 1v19l-7-5-7 5V3a1 1 0 011-1z"/></svg></button>
+          <a href="#packages" class="pill">Browse Location</a>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <div class="track" id="track"></div>
+      </div>
+    </div>
+    <div class="hero-controls">
+      <button class="arrow" id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="arrow" id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg></button>
+      <div class="progress"><span id="bar"></span></div>
+      <div class="counter" id="counter">01</div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Ceremonies</span><span class="fill">✦</span><span>Receptions</span><span class="fill">✦</span><span>Styling &amp; Florals</span><span class="fill">✦</span><span>Lights &amp; Sound</span><span class="fill">✦</span><span>Coordination</span><span class="fill">✦</span>
+    <span>Ceremonies</span><span class="fill">✦</span><span>Receptions</span><span class="fill">✦</span><span>Styling &amp; Florals</span><span class="fill">✦</span><span>Lights &amp; Sound</span><span class="fill">✦</span><span>Coordination</span><span class="fill">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-media reveal">
+      <img class="m1" src="images/image3.jpg" alt="Bride and groom kissing on a misty dance floor">
+      <img class="m2" src="images/image6.jpg" alt="Reception table with candles and wildflowers">
+      <div class="badge"><strong>10+</strong><small>Years of<br>Miracles</small></div>
+    </div>
+    <div class="about-text reveal">
+      <span class="kicker gold">About Us</span>
+      <h2 class="title">We Craft<br>Moments That<br><span class="gold">Last Forever</span></h2>
+      <p class="copy">The Miracle Wedding &amp; Events is a full-service wedding planning and styling team based in the Philippines. We turn ballrooms into gardens, lights into atmosphere, and your story into a celebration your guests will talk about for years.</p>
+      <p class="copy">From the first consultation to the last dance, our coordinators, stylists and technical crew handle every detail so you can be fully present on your day.</p>
+      <div class="stats">
+        <div class="stat"><strong data-count="300">0</strong><span>Weddings</span></div>
+        <div class="stat"><strong data-count="40">0</strong><span>Venues</span></div>
+        <div class="stat"><strong data-count="98">0</strong><span>% Happy Couples</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="head reveal">
+      <div><span class="kicker gold">What We Do</span><h2 class="title">Our Services</h2></div>
+      <p class="copy">Book the full experience or only the pieces you need. Every service can be bundled into a package.</p>
+    </div>
+    <div class="svc-list">
+      <div class="svc reveal"><span class="num">01</span><h3>Full Wedding Planning</h3><p>Budget, timeline, venue scouting and vendor booking, handled from engagement to "I do."</p><a href="#contact" class="go" aria-label="Inquire"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><img class="peek" src="images/image7.jpg" alt=""></div>
+      <div class="svc reveal"><span class="num">02</span><h3>Venue Styling &amp; Florals</h3><p>Hanging florals, chandeliers, drapes and tablescapes that transform any ballroom.</p><a href="#contact" class="go" aria-label="Inquire"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><img class="peek" src="images/image6.jpg" alt=""></div>
+      <div class="svc reveal"><span class="num">03</span><h3>Lights, Sound &amp; Effects</h3><p>Stage lighting, beam lights, low fog and sound systems for a cinematic first dance.</p><a href="#contact" class="go" aria-label="Inquire"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><img class="peek" src="images/image1.jpg" alt=""></div>
+      <div class="svc reveal"><span class="num">04</span><h3>Photo &amp; Video</h3><p>Editorial portraits and same-day edits that capture every emotion of the day.</p><a href="#contact" class="go" aria-label="Inquire"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><img class="peek" src="images/image4.jpg" alt=""></div>
+      <div class="svc reveal"><span class="num">05</span><h3>Day-of Coordination</h3><p>A calm, experienced team running your program, entrances and vendors on the day.</p><a href="#contact" class="go" aria-label="Inquire"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><img class="peek" src="images/image8.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="head reveal">
+      <div><span class="kicker gold">Packages</span><h2 class="title">Choose Your<br>Celebration</h2></div>
+      <p class="copy">Every package includes full planning, photo &amp; video, sounds &amp; lights, hair &amp; makeup, gowns, florals and styling. Choose your venue and customize when you book.</p>
+    </div>
+    <div class="pk-grid">
+      <div class="pk reveal">
+        <img src="images/image5.jpg" alt="Couple holding hands during vows">
+        <span class="lbl">Intimate</span>
+        <h3>Shiloh Package</h3>
+        <div class="price">₱300,000<small>/ PACKAGE</small></div>
+        <ul>
+          <li>Cebu Parklane · Golden Peak · Chateau by the Sea</li>
+          <li>Full planning &amp; coordination</li>
+          <li>Same-day edit photo &amp; video</li>
+          <li>Ceiling works (16x16 mini trusses)</li>
+          <li>14 floral aisle decor · rental gowns &amp; attire</li>
+        </ul>
+        <a href="#booking" class="pill" data-pkg="Shiloh Package">Book This Package</a>
+      </div>
+      <div class="pk reveal">
+        <img src="images/image6.jpg" alt="Reception table with candles and flowers">
+        <span class="lbl">Classic</span>
+        <h3>Ebenezer Package</h3>
+        <div class="price">₱400,000<small>/ PACKAGE</small></div>
+        <ul>
+          <li>Waterfront Cebu · Montebello · Chateau by the Sea</li>
+          <li>Full planning &amp; coordination</li>
+          <li>Same-day edit photo &amp; video</li>
+          <li>Ceiling works (20x20 trusses)</li>
+          <li>18 floral aisle decor · rental gowns &amp; attire</li>
+        </ul>
+        <a href="#booking" class="pill" data-pkg="Ebenezer Package">Book This Package</a>
+      </div>
+      <div class="pk featured reveal">
+        <img src="images/image2.jpg" alt="Bride standing beside seated groom">
+        <span class="lbl">Signature</span>
+        <h3>Beaulah Package</h3>
+        <div class="price">₱550,000<small>/ PACKAGE</small></div>
+        <ul>
+          <li>Waterfront Cebu · Montebello · Chateau by the Sea</li>
+          <li>Full planning &amp; coordination</li>
+          <li>Same-day edit photo &amp; video</li>
+          <li>Ceiling works (40x40 trusses)</li>
+          <li>20 floral aisle decor · first-user bridal gown</li>
+          <li>Dance floor &amp; The Wedding Archives</li>
+        </ul>
+        <a href="#booking" class="pill solid" data-pkg="Beaulah Package">Book This Package</a>
+      </div>
+      <div class="pk reveal">
+        <img src="images/image7.jpg" alt="Couple under hanging floral ceiling">
+        <span class="ribbon">Premier</span>
+        <span class="lbl">Grand</span>
+        <h3>Shalom Package</h3>
+        <div class="price">₱800,000<small>/ PACKAGE</small></div>
+        <ul>
+          <li>JPark Island (Triton Ballroom) · Shangri-La</li>
+          <li>Full planning &amp; coordination</li>
+          <li>Same-day edit photo &amp; video</li>
+          <li>Grand ceiling works (40x40 trusses)</li>
+          <li>26 floral aisle decor · made-to-own gown</li>
+          <li>LED wall 9x10, dance floor &amp; 2 vans</li>
+        </ul>
+        <a href="#booking" class="pill" data-pkg="Shalom Package">Book This Package</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="container">
+    <div class="head reveal">
+      <div><span class="kicker gold">Book Online</span><h2 class="title">Build Your<br>Celebration</h2></div>
+      <p class="copy">Pick a package, make it yours, then choose an available date. Prices are estimates until our team confirms your booking.</p>
+    </div>
+    <div class="bk-wrap reveal">
+      <div class="bk-main">
+        <div id="bkBody">
+          <div class="bk-steps" id="bkSteps">
+            <button data-s="1"><span>01</span>Date</button>
+            <button data-s="2"><span>02</span>Package</button>
+            <button data-s="3"><span>03</span>Customize</button>
+            <button data-s="4"><span>04</span>Details</button>
+          </div>
+
+          <div class="bk-panel" data-p="2">
+            <h3>Choose a package</h3><p class="copy">You can fine-tune everything in the next step.</p>
+            <div id="bkPkgs"></div>
+            <div class="agree-box" id="bkInc" style="margin-top:22px;max-height:300px"></div>
+          </div>
+
+          <div class="bk-panel" data-p="3">
+            <h3>Customize your package</h3><p class="copy">Set your guest count and add anything extra.</p>
+            <div class="sub" style="margin-top:0">Reception venue</div>
+            <div id="bkVenues"></div>
+            <div class="sub">Number of guests</div>
+            <div class="guest-row"><input type="range" id="bkGuests" min="20" max="500" step="10" value="100" aria-label="Guests"><strong id="bkGuestsOut">100</strong></div>
+            <p class="bk-note" id="bkGuestNote"></p>
+            <div class="sub">Add-ons</div>
+            <div id="bkAddons"></div>
+          </div>
+
+          <div class="bk-panel" data-p="1">
+            <h3>Pick your date</h3><p class="copy">Start with your date. Only dates marked available can be selected.</p>
+            <div class="cal-head"><button type="button" id="calPrev" aria-label="Previous month">&#8249;</button><strong id="calTitle"></strong><button type="button" id="calNext" aria-label="Next month">&#8250;</button></div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div class="legend"><span><i style="border-color:rgba(200,242,107,.5)"></i>Available</span><span><i style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 3px,transparent 3px 6px)"></i>Booked</span><span><i style="background:var(--gold);border-color:var(--gold)"></i>Your date</span></div>
+          </div>
+
+          <div class="bk-panel" data-p="4">
+            <h3>Your details</h3><p class="copy">Almost done. We'll confirm your booking within 24 hours.</p>
+            <form id="bkForm">
+              <div class="row">
+                <div class="field"><label for="b1">Your Name</label><input id="b1" required></div>
+                <div class="field"><label for="b2">Partner / Celebrant</label><input id="b2"></div>
+              </div>
+              <div class="row">
+                <div class="field"><label for="b3">Email</label><input id="b3" type="email" required></div>
+                <div class="field"><label for="b4">Phone</label><input id="b4" type="tel" required></div>
+              </div>
+              <div class="field"><label for="b5">Ceremony / Church location</label><input id="b5" placeholder="Church or ceremony place"></div>
+              <div class="field"><label for="b6">Notes</label><textarea id="b6" placeholder="Theme, colors, special requests…"></textarea></div>
+              <div class="agree">
+                <h5>Booking Agreement</h5>
+                <div class="agree-box" id="agreeBox"></div>
+                <label class="chk"><input type="checkbox" id="b7" required><span>I have read and agree to the Booking Agreement, including the cancellation policy and the no last-minute cancellation rule.</span></label>
+                <div class="field"><label for="b8">Type your full name as your signature</label><input id="b8" required minlength="3" autocomplete="off"></div>
+                <label class="chk"><input type="checkbox" id="b9" required><span>I consent to The Miracle Wedding &amp; Events collecting and using my personal details to process this booking, in line with the Data Privacy Act of 2012.</span></label>
+              </div>
+            </form>
+          </div>
+
+          <div class="bk-err" id="bkErr"></div>
+          <div class="bk-nav">
+            <button type="button" class="pill" id="bkBack">Back</button>
+            <button type="button" class="pill solid" id="bkNext">Continue</button>
+          </div>
+        </div>
+        <div class="bk-done" id="bkDone">
+          <h3 class="title">Booking Requested!</h3>
+          <p class="copy" id="bkDoneMsg"></p>
+          <div class="ref" id="bkRef"></div>
+          <div class="pay" id="payBox">
+            <h5>Pay your deposit</h5>
+            <p class="copy" id="payNote" style="font-size:.88rem"></p>
+            <div class="pm" id="pm"><button type="button" class="on" data-m="GCash">GCash</button><button type="button" data-m="Maya">Maya</button><button type="button" data-m="Credit/Debit Card">Card</button><button type="button" data-m="Bank Transfer">Bank Transfer</button></div>
+            <button type="button" class="pill solid" id="payBtn">Pay deposit (demo)</button>
+            <p class="bk-note">Demo only: no real payment is made. You can also pay later from your booking page.</p>
+          </div>
+          <details class="mail"><summary>Preview confirmation email</summary><div id="mailBody"></div></details>
+          <p style="margin-top:24px"><a class="pill" id="statusLink" href="status.html" style="text-decoration:none">Track my booking</a></p>
+        </div>
+      </div>
+
+      <aside class="bk-sum">
+        <h4>Your Booking</h4>
+        <div id="bkLines"></div>
+        <div class="tot"><span class="copy">Estimated total</span><strong id="bkTotal"></strong></div>
+        <p class="bk-note" id="bkDep"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="head reveal">
+      <div><span class="kicker gold">Portfolio</span><h2 class="title">Moments<br>We've Made</h2></div>
+      <div class="filters" id="filters">
+        <button class="on" data-f="all">All</button>
+        <button data-f="couple">Couples</button>
+        <button data-f="styling">Styling</button>
+        <button data-f="moments">Moments</button>
+      </div>
+    </div>
+    <div class="masonry reveal" id="masonry">
+      <figure class="m-item" data-cat="styling"><img src="images/image7.jpg" alt="Floral ceiling ballroom" loading="lazy"><figcaption>Grand Ceiling</figcaption></figure>
+      <figure class="m-item" data-cat="couple"><img src="images/image2.jpg" alt="Formal couple portrait" loading="lazy"><figcaption>The Portrait</figcaption></figure>
+      <figure class="m-item" data-cat="moments"><img src="images/image5.jpg" alt="Hands held during vows" loading="lazy"><figcaption>The Vows</figcaption></figure>
+      <figure class="m-item" data-cat="couple"><img src="images/image8.jpg" alt="Couple showing their rings" loading="lazy"><figcaption>Just Married</figcaption></figure>
+      <figure class="m-item" data-cat="moments"><img src="images/image1.jpg" alt="First dance with fog and chandeliers" loading="lazy"><figcaption>First Dance</figcaption></figure>
+      <figure class="m-item" data-cat="couple"><img src="images/image3.jpg" alt="Couple kissing on the dance floor" loading="lazy"><figcaption>The Kiss</figcaption></figure>
+      <figure class="m-item" data-cat="styling"><img src="images/image6.jpg" alt="Candlelit reception table" loading="lazy"><figcaption>Tablescape</figcaption></figure>
+      <figure class="m-item" data-cat="moments"><img src="images/image4.jpg" alt="Black and white vow exchange" loading="lazy"><figcaption>Promises</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+  <img src="" alt="" id="lbImg">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next">&#8250;</button>
+</div>
+
+<!-- TESTIMONIALS (sample text — replace with real reviews) -->
+<section>
+  <div class="container quote-wrap">
+    <img class="reveal" src="images/image8.jpg" alt="Happy newlyweds">
+    <div class="reveal">
+      <span class="kicker gold">Love Notes</span>
+      <h2 class="title">What Couples Say</h2>
+      <span class="q-mark">“</span>
+      <div class="q-slide on">
+        <blockquote>Replace this with a real review from one of your couples — how the team made the day feel calm, magical and completely theirs.</blockquote>
+        <cite>Client &amp; Partner<small>Shalom Package</small></cite>
+      </div>
+      <div class="q-slide">
+        <blockquote>A second testimonial goes here. Mention the styling, the lights during the first dance, or a moment they'll never forget.</blockquote>
+        <cite>Client &amp; Partner<small>Beaulah Package</small></cite>
+      </div>
+      <div class="q-slide">
+        <blockquote>A third testimonial goes here. Short, heartfelt quotes work best in this space.</blockquote>
+        <cite>Client &amp; Partner<small>Shiloh Package</small></cite>
+      </div>
+      <div class="q-nav">
+        <button class="arrow" id="qPrev" aria-label="Previous review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="arrow" id="qNext" aria-label="Next review"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <img src="images/image1.jpg" alt="">
+  <div class="container reveal">
+    <span class="kicker gold">Now Booking 2026 – 2027</span>
+    <h2 class="title">Your Miracle<br>Starts Today</h2>
+    <a href="#booking" class="pill solid">Book Your Date</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container contact-grid">
+    <div class="reveal">
+      <span class="kicker gold">Contact Us</span>
+      <h2 class="title">Let's Plan<br>Your Day</h2>
+      <p class="copy" style="margin-top:22px">Tell us a little about your wedding and we'll get back to you within 24 hours.</p>
+      <div class="info">
+        <div><span>Email</span><p>hello@tmwe.ph</p></div>
+        <div><span>Phone</span><p>+63 900 000 0000</p></div>
+        <div><span>Studio</span><p>Your City, Philippines</p></div>
+        <div><span>Hours</span><p>Mon – Sat · 9:00 AM – 6:00 PM</p></div>
+      </div>
+    </div>
+    <div class="form reveal">
+      <form id="form">
+        <div class="row">
+          <div class="field"><label for="f1">Your Name</label><input id="f1" required></div>
+          <div class="field"><label for="f2">Partner's Name</label><input id="f2"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f3">Email</label><input id="f3" type="email" required></div>
+          <div class="field"><label for="f4">Phone</label><input id="f4" type="tel"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f5">Wedding Date</label><input id="f5" type="date"></div>
+          <div class="field"><label for="f6">Guests</label><input id="f6" type="number" min="1"></div>
+        </div>
+        <div class="field">
+          <label for="pkg">Package</label>
+          <select id="pkg">
+            <option>Not sure yet</option>
+            <option>Shiloh Package</option>
+            <option>Ebenezer Package</option>
+            <option>Beaulah Package</option>
+            <option>Shalom Package</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="field"><label for="f7">Tell us your vision</label><textarea id="f7"></textarea></div>
+        <button class="pill solid" type="submit">Send Inquiry</button>
+      </form>
+      <div class="success" id="success">
+        <h3 class="title">Thank You!</h3>
+        <p class="copy">We received your inquiry and will reach out soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="f-grid">
+      <div>
+        <a href="#home" class="logo"><span class="big">TMWE</span><span class="small">THE MIRACLE WEDDING &amp; EVENTS</span></a>
+        <p class="copy">Wedding planning, styling and production across the Philippines.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4 1.8-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.3-.6.6-.6z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm5.2-8.4a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5zm3 15a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.9 3.8 4.2 4v3.2c-1.6 0-3-.5-4.2-1.3v6.3a6 6 0 11-6-6c.3 0 .6 0 .9.1v3.3a2.8 2.8 0 102 2.6V3z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Explore</h4><ul><li><a href="#home">Home</a></li><li><a href="#packages">Packages</a></li><li><a href="#about">About Us</a></li><li><a href="#gallery">Gallery</a></li></ul></div>
+      <div><h4>Services</h4><ul><li>Full Planning</li><li>Styling &amp; Florals</li><li>Lights &amp; Sound</li><li>Coordination</li></ul></div>
+      <div><h4>Contact</h4><ul><li>hello@tmwe.ph</li><li>+63 900 000 0000</li><li>Your City, Philippines</li></ul></div>
+    </div>
+    <div class="f-bottom"><span>© <span id="yr"></span> The Miracle Wedding &amp; Events</span><span>Forever begins here.</span></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== HERO SLIDES — edit image paths / labels here ===== */
+const slides = [
+  { img:'images/image1.jpg', label:'First Dance' },
+  { img:'images/image7.jpg', label:'Grand Ceiling' },
+  { img:'images/image5.jpg', label:'The Vows' },
+  { img:'images/image3.jpg', label:'The Kiss' },
+  { img:'images/image6.jpg', label:'Tablescape' },
+  { img:'images/image4.jpg', label:'Promises' },
+  { img:'images/image2.jpg', label:'The Portrait' },
+  { img:'images/image8.jpg', label:'Just Married' }
+];
+
+const track = document.getElementById('track'), heroBg = document.getElementById('heroBg');
+const bar = document.getElementById('bar'), counter = document.getElementById('counter');
+slides.forEach((s, i) => {
+  const c = document.createElement('div');
+  c.className = 'card';
+  c.innerHTML = `<img src="${s.img}" alt="${s.label}"><span class="tag">${s.label}</span>`;
+  c.onclick = () => go(i);
+  track.appendChild(c);
+  const b = document.createElement('img');
+  b.src = s.img; b.alt = '';
+  heroBg.appendChild(b);
+});
+const cards = [...track.children], bgs = [...heroBg.children];
+let idx = 0, timer;
+
+function go(i){
+  idx = (i + slides.length) % slides.length;
+  cards.forEach((c,k) => {
+    c.classList.toggle('active', k === idx);
+    c.classList.toggle('past', k < idx);
+  });
+  bgs.forEach((b,k) => b.classList.toggle('on', k === idx));
+  const offset = cards[idx].offsetLeft;
+  track.style.transform = `translateX(${-offset}px)`;
+  bar.style.width = ((idx + 1) / slides.length * 100) + '%';
+  counter.textContent = String(idx + 1).padStart(2, '0');
+  clearInterval(timer); timer = setInterval(() => go(idx + 1), 5500);
+}
+document.getElementById('prev').onclick = () => go(idx - 1);
+document.getElementById('next').onclick = () => go(idx + 1);
+window.addEventListener('resize', () => go(idx));
+window.addEventListener('load', () => go(0));
+go(0);
+
+/* swipe on hero cards */
+let sx = null;
+const stage = document.getElementById('stage');
+stage.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+stage.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1)); sx = null; });
+
+/* nav */
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', scrollY > 50);
+addEventListener('scroll', onScroll); onScroll();
+document.getElementById('menuToggle').onclick = () => nav.classList.toggle('open');
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+  nav.classList.remove('open');
+  document.querySelectorAll('.nav-links a').forEach(x => x.classList.remove('active'));
+  a.classList.add('active');
+}));
+
+/* search */
+const sb = document.getElementById('searchBar');
+document.getElementById('searchBtn').onclick = () => { sb.classList.add('open'); sb.querySelector('input').focus(); };
+document.getElementById('searchClose').onclick = () => sb.classList.remove('open');
+
+/* toast + bookmark */
+const toast = document.getElementById('toast');
+function showToast(t){ toast.textContent = t; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2200); }
+document.getElementById('saveBtn').onclick = e => {
+  const b = e.currentTarget; b.classList.toggle('saved');
+  showToast(b.classList.contains('saved') ? 'Saved to your wishlist ♡' : 'Removed from wishlist');
+};
+
+/* reveal + counters */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('visible');
+  e.target.querySelectorAll('[data-count]').forEach(el => {
+    const t = +el.dataset.count; let n = 0; const s = Math.max(1, Math.ceil(t / 50));
+    const iv = setInterval(() => { n = Math.min(t, n + s); el.textContent = n + (el.parentElement.textContent.includes('%') ? '' : '+'); if (n >= t) clearInterval(iv); }, 30);
+  });
+  io.unobserve(e.target);
+}), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* package buttons prefill form */
+document.querySelectorAll('[data-pkg]').forEach(a => a.addEventListener('click', () => document.getElementById('pkg').value = a.dataset.pkg));
+
+/* gallery filter */
+const items = [...document.querySelectorAll('.m-item')];
+document.querySelectorAll('#filters button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#filters button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  items.forEach(it => it.classList.toggle('hide', b.dataset.f !== 'all' && it.dataset.cat !== b.dataset.f));
+});
+
+/* lightbox */
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+let li = 0;
+const visible = () => items.filter(i => !i.classList.contains('hide'));
+function openLb(i){ const v = visible(); li = (i + v.length) % v.length; const im = v[li].querySelector('img'); lbImg.src = im.src; lbImg.alt = im.alt; lb.classList.add('open'); }
+items.forEach(it => it.onclick = () => openLb(visible().indexOf(it)));
+document.getElementById('lbClose').onclick = () => lb.classList.remove('open');
+document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); openLb(li - 1); };
+document.getElementById('lbNext').onclick = e => { e.stopPropagation(); openLb(li + 1); };
+lb.onclick = e => { if (e.target === lb) lb.classList.remove('open'); };
+addEventListener('keydown', e => {
+  if (lb.classList.contains('open')) {
+    if (e.key === 'Escape') lb.classList.remove('open');
+    if (e.key === 'ArrowLeft') openLb(li - 1);
+    if (e.key === 'ArrowRight') openLb(li + 1);
+  } else if (e.key === 'Escape') sb.classList.remove('open');
+});
+
+/* testimonials */
+const qs = [...document.querySelectorAll('.q-slide')]; let qi = 0;
+const showQ = i => { qs[qi].classList.remove('on'); qi = (i + qs.length) % qs.length; qs[qi].classList.add('on'); };
+document.getElementById('qPrev').onclick = () => showQ(qi - 1);
+document.getElementById('qNext').onclick = () => showQ(qi + 1);
+setInterval(() => showQ(qi + 1), 7000);
+
+/* form (front-end only — connect to your backend later) */
+document.getElementById('form').addEventListener('submit', e => {
+  e.preventDefault(); e.target.style.display = 'none';
+  document.getElementById('success').style.display = 'block';
+});
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ================= BOOKING ================= */
+/* Edit prices, add-ons and rules here. */
+const PK = {
+  shiloh:   { name:'Shiloh Package',   price:300000, img:'images/image5.jpg', gown:'Bridal gown (rental)', groom:"Groom's attire (rental)", aisle:14, ceiling:'Ceiling works (16x16 mini trusses)', cake:'2-tier real cake',
+    venues:[{n:'Cebu Parklane International Hotel',pax:80},{n:'Golden Peak Hotel & Suites',pax:60},{n:'Chateau by the Sea',pax:50}],
+    free:['Pica-pica for 50 pax','Low-lying fog machine','Indoor fireworks','LED wall 7x10','Confetti'] },
+  ebenezer: { name:'Ebenezer Package', price:400000, img:'images/image6.jpg', gown:'Bridal gown (rental)', groom:"Groom's attire (rental)", aisle:18, ceiling:'Ceiling works (20x20 trusses)', cake:'2-tier real cake',
+    venues:[{n:'Waterfront Cebu Hotel & Casino',pax:90},{n:'Montebello Hotel',pax:50},{n:'Chateau by the Sea',pax:70}],
+    free:['Pica-pica for 50 pax','Low-lying fog machine','Indoor fireworks','LED wall 7x10','Confetti','The Wedding Archives','1 van'] },
+  beaulah:  { name:'Beaulah Package',  price:550000, img:'images/image2.jpg', gown:'Bridal gown (first user)', groom:"Groom's attire", aisle:20, ceiling:'Ceiling works (40x40 trusses)', cake:'3-tier cake',
+    venues:[{n:'Waterfront Cebu Hotel & Casino',pax:100},{n:'Montebello Hotel',pax:100},{n:'Chateau by the Sea',pax:100}],
+    free:['Pica-pica for 50 pax','Low-lying fog machine','Indoor fireworks','LED wall 7x10','Dance floor','Confetti','The Wedding Archives','1 van'] },
+  shalom:   { name:'Shalom Package',   price:800000, img:'images/image7.jpg', gown:'Bridal gown (made to own)', groom:"Groom's attire (first user)", aisle:26, ceiling:'Grand ceiling works (40x40 trusses)', cake:'3-tier cake',
+    venues:[{n:'JPark Island Resort & Waterpark (Triton Ballroom)',pax:100},{n:'Shangri-La',pax:50}],
+    free:['Pica-pica for 100 pax','Low-lying fog machine','Indoor fireworks','LED wall 9x10','Dance floor','Confetti','The Wedding Archives','2 vans'] }
+};
+const EXCL = ['Prenup expenses','Church or ceremony fees','Crew meals on the wedding day','Hotel rooms','Corkage','Electricity','Carts & etc'];
+const incOf = p => ({
+  'Planning':['Full planning & wedding coordination'],
+  'Photographer':['Same-day edit photo','100 pcs printouts','USB of edited soft copies'],
+  'Videographer':['Same-day edit video','Soft copy (USB or Google Drive)'],
+  'Sounds & lights':['6 moving heads','16-20 PAR LEDs with amber','2-3 mid-hi speakers','1-2 sub woofers','Live mixer','Power amplifier'],
+  'Invitations':['30 pcs according to theme'],
+  'Hair & makeup':['Bridal hair & makeup','7 heads for entourage'],
+  'Gowns & attire':[p.gown,'1 Maid of Honor','3 Bridesmaids','3 Flower girls','2 Mothers',p.groom,'1 Best man','3 Groomsmen','3 Bearers','2 Fathers'],
+  'Ceremony flowers & styling':['Bouquets','Boutonnieres','Wristlets',p.aisle+' floral aisle decor','Bridal car flower','2 prenuptial candles','Veil, cord, cushions'],
+  'Reception styling':[p.ceiling,'Table centerpieces','Stage backdrop','Entrance tunnel decor'],
+  'Technical & others':['Sounds & lights','Wedding host & spinner/DJ','2 hrs photobooth',p.cake,'Bridal car','Money envelope & sash']
+});
+const ADDONS = [
+  { id:'band',       name:'Live Band / Acoustic',  price:35000, d:'3 hours of live music' },
+  { id:'photobooth', name:'Extra Photobooth Hour', price:5000,  d:'Extend beyond the included 2 hours' },
+  { id:'prints',     name:'Extra 100 Printouts',   price:6000,  d:'100 more photo printouts' },
+  { id:'coord',      name:'Extra Coordinator',     price:8000,  d:'More hands for your day' }
+];
+const LEAD_DAYS = 14, DEPOSIT = 0.3; /* all prices here are PLACEHOLDERS for add-ons; package prices are the client's real rates */
+/* DEMO availability: replace with dates from your backend/database (format YYYY-MM-DD) */
+const BOOKED = new Set([6,7,13,20,21,27,28,34,41,42,48,55,56,62,69,76].map(n => { const d = new Date(); d.setDate(d.getDate() + n); return iso(d); }));
+
+const store = { get(k){ try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch(e) { return []; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} } };
+store.get('tmwe_bookings').filter(b => b.status !== 'Cancelled').forEach(b => BOOKED.add(b.date));
+store.get('tmwe_blocked').forEach(d => BOOKED.add(d));
+
+/* Cancellation policy: edit the numbers here (admin.html has the same tiers for its fee calculator) */
+const POLICY = [
+  { days:60, pct:0,   text:'60 days or more before the event: the deposit is non-refundable and no further charges apply.' },
+  { days:30, pct:50,  text:'30 to 59 days before the event: 50% of the total package price is due.' },
+  { days:15, pct:75,  text:'15 to 29 days before the event: 75% of the total package price is due.' },
+  { days:0,  pct:100, text:'14 days or less before the event: 100% of the total is due.' }
+];
+function renderAgreement(){
+  const t = total(), dep = Math.round(t * DEPOSIT);
+  $('agreeBox').innerHTML =
+    `<p><b>1. Reservation and deposit.</b> A ${DEPOSIT*100}% deposit (${peso(dep)}) is required within 3 days of our confirmation to secure <b>${bk.date ? nice(bk.date) : 'your date'}</b>. If it is not received, the date is released.</p>` +
+    `<p><b>2. Balance.</b> The remaining balance (${peso(t - dep)}) is due 7 days before the event.</p>` +
+    `<p><b>3. Cancellation by the client.</b> All cancellations must be made in writing. The following is payable:</p>` +
+    '<p>' + POLICY.map(x => '• ' + x.text).join('<br>') + '</p>' +
+    `<p class="warn"><b>4. No last-minute cancellations.</b> Within 14 days of the event, a booking can no longer be cancelled or refunded, and the full amount remains payable, because dates, suppliers and materials are already committed.</p>` +
+    `<p><b>5. Rescheduling.</b> One reschedule is allowed if requested at least 30 days before the event and the new date is available. Otherwise it is treated as a cancellation.</p>` +
+    `<p><b>6. Changes and exclusions.</b> The final guest count and add-ons must be confirmed 14 days before the event. Guest counts cannot be reduced after that. Items listed as not included in your package (such as prenup expenses, church or ceremony fees, crew meals, hotel rooms, corkage, electricity and carts) are the client's responsibility.</p>` +
+    `<p><b>7. Cancellation by us.</b> If we have to cancel, you will receive a full refund of all payments made. Neither party is liable for events beyond reasonable control (for example severe weather or government restrictions); we will work with you to reschedule.</p>` +
+    `<p><b>8. Agreement.</b> Typing your name below and submitting this booking is your electronic signature and confirms you accept these terms.</p>`;
+}
+
+const bk = { step:1, pkg:'beaulah', venue:0, guests:100, addons:new Set(), date:null };
+const peso = n => '₱' + n.toLocaleString('en-PH');
+function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+const nice = s => { const [y,m,d] = s.split('-'); return new Date(y, m-1, d).toLocaleDateString('en-PH', { weekday:'long', year:'numeric', month:'long', day:'numeric' }); };
+const $ = id => document.getElementById(id);
+const addonTotal = () => ADDONS.filter(a => bk.addons.has(a.id)).reduce((t,a) => t + a.price, 0);
+const total = () => PK[bk.pkg].price + addonTotal();
+
+function buildPkgs(){
+  $('bkPkgs').innerHTML = Object.entries(PK).map(([k,p]) =>
+    `<div class="opt ${k===bk.pkg?'sel':''}" data-k="${k}"><img src="${p.img}" alt=""><div class="t"><strong>${p.name}</strong><small>${p.venues.map(v => v.n).join(' · ')}</small></div><div class="pr">${peso(p.price)}</div><span class="tick"></span></div>`).join('');
+}
+function buildAddons(){
+  $('bkAddons').innerHTML = ADDONS.map(a =>
+    `<div class="opt ${bk.addons.has(a.id)?'sel':''}" data-a="${a.id}"><div class="t"><strong>${a.name}</strong><small>${a.d}</small></div><span class="tick"></span></div>`).join('');
+}
+function renderInc(){
+  const p = PK[bk.pkg];
+  $('bkInc').innerHTML = `<p><b style="font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--gold)">What's included in ${p.name}</b></p>` +
+    Object.entries(incOf(p)).map(([h,l]) => `<p><b>${h}:</b> ${l.join(' · ')}</p>`).join('') +
+    `<p><b>Freebies:</b> ${p.free.join(' · ')}</p><p class="warn"><b>Not included:</b> ${EXCL.join(' · ')}</p>`;
+}
+function buildVenues(){
+  const v = PK[bk.pkg].venues, max = v[bk.venue].pax;
+  $('bkVenues').innerHTML = v.map((x,i) => `<div class="opt ${i===bk.venue?'sel':''}" data-v="${i}"><div class="t"><strong>${x.n}</strong><small>Up to ${x.pax} guests included</small></div><span class="tick"></span></div>`).join('');
+  const g = $('bkGuests'); g.min = Math.min(20, max); g.max = max; bk.guests = Math.min(bk.guests, max); g.value = bk.guests;
+}
+function setPkg(k){ bk.pkg = k; bk.venue = 0; bk.guests = PK[k].venues[0].pax; buildPkgs(); renderInc(); buildVenues(); sum(); }
+$('bkPkgs').onclick = e => { const o = e.target.closest('.opt'); if (o) setPkg(o.dataset.k); };
+$('bkVenues').onclick = e => { const o = e.target.closest('.opt'); if (!o) return; bk.venue = +o.dataset.v; bk.guests = PK[bk.pkg].venues[bk.venue].pax; buildVenues(); sum(); };
+$('bkAddons').onclick = e => { const o = e.target.closest('.opt'); if (!o) return; const id = o.dataset.a; bk.addons.has(id) ? bk.addons.delete(id) : bk.addons.add(id); buildAddons(); sum(); };
+$('bkGuests').oninput = e => { bk.guests = +e.target.value; sum(); };
+
+function sum(){
+  $('bkGuestsOut').textContent = bk.guests;
+  $('bkGuestNote').textContent = `This venue seats up to ${PK[bk.pkg].venues[bk.venue].pax} guests, included in your package. Need more? Tell us in your notes and we'll prepare a quote.`;
+  const L = [['Date', bk.date ? nice(bk.date) : 'Not selected'], ['Package', PK[bk.pkg].name], ['Venue', PK[bk.pkg].venues[bk.venue].n], ['Guests', bk.guests]];
+  ADDONS.filter(a => bk.addons.has(a.id)).forEach(a => L.push([a.name, 'Added']));
+  $('bkLines').innerHTML = L.map(([a,b]) => `<div class="ln"><span>${a}</span><b>${b}</b></div>`).join('');
+  $('bkTotal').textContent = peso(total());
+  $('bkDep').textContent = `A ${DEPOSIT*100}% reservation deposit (${peso(Math.round(total()*DEPOSIT))}) secures your date once confirmed.`;
+}
+
+/* calendar */
+const today = new Date(); today.setHours(0,0,0,0);
+const minDate = new Date(today); minDate.setDate(minDate.getDate() + LEAD_DAYS);
+let cy = minDate.getFullYear(), cm = minDate.getMonth();
+function renderCal(){
+  $('calTitle').textContent = new Date(cy, cm, 1).toLocaleDateString('en-US', { month:'long', year:'numeric' });
+  $('calPrev').disabled = cy * 12 + cm <= today.getFullYear() * 12 + today.getMonth();
+  let h = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => `<div class="dow">${d}</div>`).join('');
+  const start = new Date(cy, cm, 1).getDay(), dim = new Date(cy, cm + 1, 0).getDate();
+  for (let i = 0; i < start; i++) h += '<span class="day empty"></span>';
+  for (let d = 1; d <= dim; d++) {
+    const dt = new Date(cy, cm, d), k = iso(dt);
+    const booked = BOOKED.has(k), past = dt < minDate, ok = !booked && !past;
+    const cls = 'day ' + (k === bk.date ? 'sel' : ok ? 'ok' : booked ? 'off booked' : 'off');
+    h += `<button type="button" class="${cls}" data-d="${k}" ${ok ? '' : 'disabled'} aria-label="${nice(k)}${booked ? ' (booked)' : ''}">${d}</button>`;
+  }
+  $('calGrid').innerHTML = h;
+}
+$('calPrev').onclick = () => { cm--; if (cm < 0) { cm = 11; cy--; } renderCal(); };
+$('calNext').onclick = () => { cm++; if (cm > 11) { cm = 0; cy++; } renderCal(); };
+$('calGrid').onclick = e => { const b = e.target.closest('.day.ok, .day.sel'); if (!b) return; bk.date = b.dataset.d; $('bkErr').textContent = ''; renderCal(); sum(); };
+
+/* steps */
+function goStep(n){
+  if (n > 1 && !bk.date) { n = 1; $('bkErr').textContent = 'Please choose an available date to continue.'; }
+  else $('bkErr').textContent = '';
+  bk.step = n;
+  document.querySelectorAll('.bk-panel').forEach(p => p.classList.toggle('on', +p.dataset.p === n));
+  document.querySelectorAll('#bkSteps button').forEach(b => b.classList.toggle('on', +b.dataset.s === n));
+  $('bkBack').style.visibility = n === 1 ? 'hidden' : 'visible';
+  $('bkNext').textContent = n === 4 ? 'Confirm Booking' : 'Continue';
+  if (n === 1) renderCal();
+  if (n === 4) renderAgreement();
+}
+$('bkSteps').onclick = e => { const b = e.target.closest('button'); if (b) goStep(+b.dataset.s); };
+$('bkBack').onclick = () => goStep(bk.step - 1);
+$('bkNext').onclick = () => {
+  if (bk.step < 4) return goStep(bk.step + 1);
+  const f = $('bkForm'); if (!f.reportValidity()) return;
+  if (BOOKED.has(bk.date)) { goStep(1); $('bkErr').textContent = 'Sorry, that date was just taken. Please pick another.'; return; }
+  const ref = 'TMWE-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+  const payload = { ref, status:'Pending', depositPaid:false, createdAt:new Date().toISOString(),
+    package:bk.pkg, packageName:PK[bk.pkg].name, reception:PK[bk.pkg].venues[bk.venue].n, pax:PK[bk.pkg].venues[bk.venue].pax, guests:bk.guests,
+    addons:ADDONS.filter(a => bk.addons.has(a.id)).map(a => a.name),
+    date:bk.date, total:total(), deposit:Math.round(total() * DEPOSIT),
+    name:$('b1').value.trim(), partner:$('b2').value.trim(), email:$('b3').value.trim(), phone:$('b4').value.trim(), venue:$('b5').value.trim(), notes:$('b6').value.trim(),
+    agreement:{ accepted:true, signature:$('b8').value.trim(), signedAt:new Date().toISOString() },
+    consent:true, depositDue:new Date(Date.now() + 3 * 864e5).toISOString(), payment:null, requests:[], planning:{}, adminNotes:'' };
+  /* DEMO storage: saved in this browser so admin.html can read it. A real site must POST this to a server/database. */
+  store.set('tmwe_bookings', [...store.get('tmwe_bookings'), payload]);
+  BOOKED.add(bk.date);
+  /* DEMO notifications: a real site would send these by email/SMS */
+  const logMail = (to, subject, body) => store.set('tmwe_log', [...store.get('tmwe_log'), { at:new Date().toISOString(), to, subject, body, ref }]);
+  const dd = d => new Date(d).toLocaleDateString('en-PH', { month:'long', day:'numeric', year:'numeric' });
+  const mailText = `Hi ${payload.name},\n\nThank you for booking with The Miracle Wedding & Events!\n\nReference: ${ref}\nPackage: ${payload.packageName}\nVenue: ${payload.reception}\nDate: ${nice(payload.date)}\nGuests: ${payload.guests}\nEstimated total: ${peso(payload.total)}\nDeposit: ${peso(payload.deposit)}, due by ${dd(payload.depositDue)} to keep your date\n\nYour signed Booking Agreement is attached (demo).\nTrack your booking anytime at status.html with your reference number.\n\nWith love,\nThe Miracle Wedding & Events`;
+  logMail('client', 'Booking request received · ' + ref, mailText);
+  logMail('admin', 'New booking request · ' + ref, `${payload.name} requested ${payload.packageName} on ${nice(payload.date)} (${peso(payload.total)}).`);
+  window.lastRef = ref; window.lastPayload = payload;
+  $('mailBody').textContent = mailText;
+  $('payNote').textContent = `Deposit: ${peso(payload.deposit)}. Pay by ${dd(payload.depositDue)} or your date will be released.`;
+  $('statusLink').href = 'status.html?ref=' + ref;
+  $('bkBody').style.display = 'none'; $('bkDone').style.display = 'block';
+  $('bkDoneMsg').textContent = `${PK[bk.pkg].name} · ${nice(bk.date)}. We'll email ${payload.email} within 24 hours to confirm and arrange your deposit.`;
+  $('bkRef').textContent = ref;
+};
+
+/* demo deposit payment */
+let payMethod = 'GCash';
+$('pm').onclick = e => { const b = e.target.closest('button'); if (!b) return; payMethod = b.dataset.m; [...$('pm').children].forEach(x => x.classList.toggle('on', x === b)); };
+$('payBtn').onclick = () => {
+  const btn = $('payBtn'); btn.disabled = true; btn.textContent = 'Processing…';
+  setTimeout(() => {
+    const all = store.get('tmwe_bookings'), b = all.find(x => x.ref === window.lastRef); if (!b) return;
+    b.depositPaid = true; b.payment = { method:payMethod, ref:'PAY-' + Math.random().toString(36).slice(2, 8).toUpperCase(), amount:b.deposit, paidAt:new Date().toISOString() };
+    store.set('tmwe_bookings', all);
+    const log = store.get('tmwe_log');
+    log.push({ at:new Date().toISOString(), to:'client', subject:'Payment received · ' + b.ref, body:`Hi ${b.name},\n\nWe received your deposit of ${peso(b.deposit)} via ${payMethod}. Ref: ${b.payment.ref}.\nThank you!`, ref:b.ref });
+    log.push({ at:new Date().toISOString(), to:'admin', subject:'Deposit paid · ' + b.ref, body:`${b.name} paid ${peso(b.deposit)} via ${payMethod}.`, ref:b.ref });
+    store.set('tmwe_log', log);
+    $('payBox').innerHTML = '<h5>Deposit received ✓</h5><p class="copy" style="font-size:.9rem">Thank you! A receipt was sent to your email (demo).</p>';
+  }, 1200);
+};
+
+/* "Book This Package" buttons preselect the package */
+document.querySelectorAll('[data-pkg]').forEach(a => a.addEventListener('click', () => {
+  const k = Object.keys(PK).find(k => PK[k].name === a.dataset.pkg);
+  if (k) { setPkg(k); goStep(1); }
+}));
+setPkg(bk.pkg); buildAddons(); goStep(1);
+
+</script>
+</body>
+</html>

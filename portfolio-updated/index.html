@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jomari Guadalquiver — IT Student &amp; Systems Developer</title>
+<meta name="description" content="Portfolio of Jomari Guadalquiver, BSIT student at Saint Columban College — Laravel developer, web builder, capstone project manager and technical documentation lead.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF9F3;
+    --bg-2:#FFF1E6;
+    --surface:#FFFFFF;
+    --ink:#2B2230;
+    --muted:#6E6475;
+    --line:#F0E1D6;
+    --primary:#E4572E;      /* warm coral */
+    --primary-strong:#C9431D;
+    --on-primary:#FFFFFF;
+    --accent:#2F8F83;       /* fresh teal */
+    --accent-soft:#DDF3EF;
+    --sun:#FFC857;
+    --blush:#FFE0D3;
+    --shadow:0 10px 30px -12px rgba(120,60,30,.25);
+    --radius:20px;
+    --serif:'Fraunces', Georgia, serif;
+    --sans:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --bg:#1E1822; --bg-2:#261E2B; --surface:#2A2230; --ink:#FBF1EA; --muted:#BFB2C4;
+      --line:#3A2F42; --primary:#FF7A52; --primary-strong:#FF9573; --on-primary:#2B1209;
+      --accent:#5FD0C0; --accent-soft:#1F3A38; --sun:#FFC857; --blush:#3A2A2D;
+      --shadow:0 10px 30px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1E1822; --bg-2:#261E2B; --surface:#2A2230; --ink:#FBF1EA; --muted:#BFB2C4;
+    --line:#3A2F42; --primary:#FF7A52; --primary-strong:#FF9573; --on-primary:#2B1209;
+    --accent:#5FD0C0; --accent-soft:#1F3A38; --sun:#FFC857; --blush:#3A2A2D;
+    --shadow:0 10px 30px -12px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition-duration:.001ms!important;animation-duration:.001ms!important}}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+    padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  h1,h2,h3{font-family:var(--serif);margin:0;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+  p{color:var(--muted);margin:0 0 14px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  section{padding:96px 0}
+
+  /* NAV */
+  header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .navbar{display:flex;align-items:center;justify-content:space-between;max-width:1080px;margin:0 auto;padding:14px 28px}
+  .logo{font-family:var(--serif);font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:top center;border:2px solid var(--primary);display:inline-block}
+  .navlinks{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:.92rem;font-weight:500}
+  .navlinks a{text-decoration:none;color:var(--muted);transition:color .2s}
+  .navlinks a:hover{color:var(--primary)}
+  .nav-cta{font-size:.9rem;font-weight:600;text-decoration:none;background:var(--primary);color:var(--on-primary);padding:10px 20px;border-radius:999px;transition:background .2s,transform .2s}
+  .nav-cta:hover{background:var(--primary-strong);transform:translateY(-1px)}
+
+  /* BUTTONS */
+  .btn{display:inline-block;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem;border:2px solid transparent;transition:all .2s}
+  .btn:focus-visible,.nav-cta:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:0 8px 20px -8px var(--primary)}
+  .btn-primary:hover{background:var(--primary-strong);transform:translateY(-2px)}
+  .btn-ghost{border-color:var(--line);background:var(--surface);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* HERO */
+  .hero{position:relative;padding:80px 0 90px;background:
+    radial-gradient(600px 400px at 85% 10%,var(--blush),transparent 70%),
+    radial-gradient(500px 360px at 0% 90%,var(--accent-soft),transparent 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);padding:7px 16px;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--accent);margin-bottom:22px}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.4rem);margin-bottom:20px}
+  .hero h1 em{font-style:italic;color:var(--primary)}
+  .hero .role{font-size:1.15rem;max-width:52ch;margin-bottom:32px}
+  .cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
+  .hero-meta li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 16px;font-size:.85rem;color:var(--muted)}
+  .hero-meta strong{display:block;color:var(--ink);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+  .portrait{position:relative;max-width:380px;margin-left:auto}
+  .portrait::before{content:"";position:absolute;inset:18px -18px -18px 18px;border-radius:32px;background:linear-gradient(135deg,var(--sun),var(--primary));opacity:.9}
+  .portrait img{position:relative;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top center;border-radius:32px;border:6px solid var(--surface);box-shadow:var(--shadow)}
+  .badge{position:absolute;left:-20px;bottom:30px;z-index:2;background:var(--surface);border-radius:16px;padding:12px 18px;box-shadow:var(--shadow);font-size:.82rem;font-weight:600;color:var(--ink)}
+  .badge span{display:block;font-weight:400;color:var(--muted);font-size:.74rem}
+
+  /* SECTION HEAD */
+  .section-head{margin-bottom:44px}
+  .section-head .tag{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);display:block;margin-bottom:10px}
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.7rem)}
+  .section-head p{max-width:60ch;margin-top:12px}
+
+  /* FEATURED CASE STUDY */
+  .featured{background:var(--bg-2)}
+  .case{background:var(--surface);border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+  .case-top{display:grid;grid-template-columns:1.1fr .9fr}
+  .case-text{padding:44px}
+  .pill{display:inline-block;font-size:.76rem;font-weight:700;padding:5px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-bottom:16px}
+  .case-text h3{font-size:2rem;margin-bottom:6px}
+  .case-text .sub{font-weight:600;color:var(--primary);font-size:.92rem;margin-bottom:18px}
+  .case-img{position:relative;min-height:320px}
+  .case-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+  .facts div{background:var(--surface);padding:22px 28px}
+  .facts b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--ink)}
+  .facts span{font-size:.82rem;color:var(--muted)}
+  .case-body{padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:44px;border-top:1px solid var(--line)}
+  .case-body h4{font-family:var(--serif);font-size:1.15rem;margin:0 0 14px}
+  .feat{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .feat li{position:relative;padding-left:30px;color:var(--muted);font-size:.95rem}
+  .feat li::before{content:"✓";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .tech{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .tech span{font-size:.78rem;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--bg-2);color:var(--muted);border:1px solid var(--line)}
+  .case-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .case-links .btn{padding:11px 22px;font-size:.88rem}
+
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 44px 44px}
+  .gallery a{display:block;border-radius:16px;overflow:hidden;aspect-ratio:1;position:relative}
+  .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .gallery a:hover img{transform:scale(1.07)}
+  .gallery-title{padding:0 44px 16px;font-family:var(--serif);font-size:1.15rem;font-weight:600}
+
+  /* LIGHTBOX */
+  .lb{position:fixed;inset:0;background:rgba(20,10,15,.88);display:none;align-items:center;justify-content:center;z-index:100;padding:24px;cursor:zoom-out}
+  .lb.on{display:flex}
+  .lb img{max-height:90vh;max-width:92vw;border-radius:14px}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:start}
+  .focus-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .focus-list li{display:flex;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 20px;font-size:.92rem}
+  .focus-list li span:first-child{font-weight:600}
+  .focus-list li span:last-child{color:var(--accent);font-weight:500;text-align:right}
+
+  /* SKILLS */
+  .skills{background:var(--bg-2)}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
+  .skill-group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:transform .25s,box-shadow .25s}
+  .skill-group:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .skill-group h3{font-size:1.05rem;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .skill-group h3::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--c,var(--primary))}
+  .skill-group:nth-child(2){--c:var(--accent)}
+  .skill-group:nth-child(3){--c:var(--sun)}
+  .skill-group:nth-child(4){--c:#B07CD8}
+  .skill-group:nth-child(5){--c:#4C8DF6}
+  .exp-badge{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+  .skill-group ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;color:var(--muted);font-size:.93rem}
+
+  /* EXPERIENCE */
+  .worklog{display:grid;gap:16px}
+  .work-entry{display:grid;grid-template-columns:200px 1fr;gap:28px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .work-entry .when{font-size:.8rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.06em}
+  .work-entry .when span{display:block;color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0;margin-top:4px}
+  .work-entry h3{font-size:1.2rem;margin-bottom:8px}
+  .work-entry p{margin:0}
+  .work-entry.hl{border-color:var(--primary);background:linear-gradient(135deg,var(--surface),var(--blush))}
+
+  /* PROJECTS */
+  .project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .project-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px;transition:transform .25s,box-shadow .25s}
+  .project-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .status{display:inline-block;font-size:.74rem;font-weight:700;padding:4px 12px;border-radius:999px;margin-bottom:14px}
+  .status.in-progress{background:#FFF0C7;color:#8A6200}
+  .status.completed{background:var(--accent-soft);color:var(--accent)}
+  .status.side{background:var(--blush);color:var(--primary-strong)}
+  :root[data-theme="dark"] .status.in-progress{background:#4A3A12;color:#FFD97A}
+  .project-card h3{font-size:1.35rem;margin-bottom:10px}
+
+  /* CONTACT */
+  .contact-card{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;background:linear-gradient(135deg,var(--primary),#F28A4B);color:#fff;border-radius:32px;padding:52px;box-shadow:var(--shadow)}
+  .contact-card h3,.contact-card p,.contact-card li{color:#fff}
+  .contact-card p{opacity:.92}
+  .contact-list{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+  .contact-list li{display:flex;gap:16px;font-size:.95rem}
+  .contact-list li span:first-child{width:76px;opacity:.75;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+  .contact-list a{font-weight:600}
+  .availability{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:28px;align-self:center}
+  .availability h3{font-size:1.15rem;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-family:var(--serif)}
+  .availability .dot{width:10px;height:10px;border-radius:50%;background:#B8F5A8;box-shadow:0 0 0 5px rgba(184,245,168,.3)}
+  .availability p{margin:0}
+
+  footer{text-align:center;padding:36px 28px 48px;color:var(--muted);font-size:.88rem}
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .hero-grid,.about-grid,.case-top,.case-body,.contact-card{grid-template-columns:1fr}
+    .portrait{margin:0 auto 10px;max-width:320px;order:-1}
+    .skills-grid{grid-template-columns:repeat(2,1fr)}
+    .project-grid{grid-template-columns:1fr}
+    .navlinks{display:none}
+    .case-img{min-height:240px}
+    .gallery{grid-template-columns:repeat(2,1fr);padding:0 24px 28px}
+    .gallery-title,.case-text,.case-body{padding-left:24px;padding-right:24px}
+    .work-entry{grid-template-columns:1fr;gap:10px}
+    .contact-card{padding:32px 24px}
+    section{padding:72px 0}
+  }
+  @media (max-width:520px){
+    .skills-grid{grid-template-columns:1fr}
+    .facts{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="navbar">
+    <a class="logo" href="#top"><img src="images/portrait.jpg" alt="">Jomari Guadalquiver</a>
+    <ul class="navlinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#featured">Featured work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>BSIT · Saint Columban College</div>
+        <h1>Hi, I’m Jomari — bringing <em>ideas</em> to life, one line of code at a time.</h1>
+        <p class="role">I build the systems that keep records straight and the websites that help small businesses grow — backed by solid requirements, test plans, and QA.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#featured">See my latest work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        <ul class="hero-meta">
+          <li><strong>Role</strong>Project Manager, NOCAP capstone</li>
+          <li><strong>Stack</strong>Laravel · PostgreSQL · JavaScript</li>
+          <li><strong>Based in</strong>Pagadian City, PH</li>
+        </ul>
+      </div>
+      <div class="portrait">
+        <img src="images/portrait.jpg" alt="Portrait of Jomari Guadalquiver">
+        <div class="badge">Latest project<span>Wedding booking website · Sept 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="featured" class="featured">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="tag">Featured work · September 2026</span>
+        <h2>The Miracle Wedding &amp; Events</h2>
+        <p>My most recent client job — a full website and online booking system for a wedding and event organizer.</p>
+      </div>
+
+      <article class="case">
+        <div class="case-top">
+          <div class="case-text">
+            <span class="pill">Freelance · Client project</span>
+            <h3>TMWE Website &amp; Booking System</h3>
+            <div class="sub">Web design · Front-end development · Booking workflow</div>
+            <p>The Miracle Wedding &amp; Events is a full-service wedding planning and styling team in the Philippines. They needed a website that looks as elegant as their weddings and lets couples pick a package, check available dates and send a booking request without back-and-forth messages.</p>
+            <p>I designed and built the site end to end: a cinematic photo hero, service and package pages, a step-by-step booking flow with a live availability calendar, and a separate admin dashboard where the team manages every request.</p>
+            <div class="case-links">
+              <a class="btn btn-primary" href="tmwe-site/index.html" target="_blank" rel="noopener">View live demo</a>
+              <a class="btn btn-ghost" href="tmwe-site/admin.html" target="_blank" rel="noopener">Admin dashboard</a>
+              <a class="btn btn-ghost" href="tmwe-site/status.html" target="_blank" rel="noopener">Booking tracker</a>
+            </div>
+          </div>
+          <div class="case-img"><img src="images/tmwe-1.jpg" alt="First dance at a TMWE wedding" loading="lazy"></div>
+        </div>
+
+        <div class="facts">
+          <div><b>3</b><span>connected pages: site, admin, tracker</span></div>
+          <div><b>4</b><span>wedding packages, ₱300K – ₱800K</span></div>
+          <div><b>4 steps</b><span>date → package → customize → details</span></div>
+        </div>
+
+        <div class="case-body">
+          <div>
+            <h4>What I built</h4>
+            <ul class="feat">
+              <li>Animated hero slideshow with a photo-card carousel</li>
+              <li>Package builder with venue choice, guest count and add-ons, plus a live estimated total</li>
+              <li>Availability calendar — booked and blocked dates can't be selected</li>
+              <li>Booking agreement with e-signature, cancellation policy and Data Privacy Act consent</li>
+              <li>Deposit step with GCash, Maya, card and bank-transfer options (demo mode)</li>
+              <li>Client booking tracker and chat, using a reference number</li>
+              <li>Admin dashboard: status filters, sorting, CSV export, date blocking and inbox</li>
+              <li>Filterable photo gallery with lightbox, plus an inquiry form</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Tools used</h4>
+            <div class="tech"><span>HTML5</span><span>CSS3</span><span>Vanilla JavaScript</span><span>Responsive design</span><span>LocalStorage</span><span>Google Fonts</span></div>
+            <h4 style="margin-top:28px">Note</h4>
+            <p style="font-size:.9rem">Payments and emails run in demo mode, and the data is stored in the browser. A live launch would move bookings and login to a server — a natural next step with my Laravel background.</p>
+          </div>
+        </div>
+
+        <div class="gallery-title">Moments from the site gallery</div>
+        <div class="gallery">
+          <a href="images/tmwe-7.jpg" data-lb><img src="images/tmwe-7.jpg" alt="Grand ceiling styling" loading="lazy"></a>
+          <a href="images/tmwe-5.jpg" data-lb><img src="images/tmwe-5.jpg" alt="The vows" loading="lazy"></a>
+          <a href="images/tmwe-3.jpg" data-lb><img src="images/tmwe-3.jpg" alt="The kiss" loading="lazy"></a>
+          <a href="images/tmwe-6.jpg" data-lb><img src="images/tmwe-6.jpg" alt="Tablescape" loading="lazy"></a>
+          <a href="images/tmwe-4.jpg" data-lb><img src="images/tmwe-4.jpg" alt="Promises" loading="lazy"></a>
+          <a href="images/tmwe-2.jpg" data-lb><img src="images/tmwe-2.jpg" alt="The portrait" loading="lazy"></a>
+          <a href="images/tmwe-8.jpg" data-lb><img src="images/tmwe-8.jpg" alt="Just married" loading="lazy"></a>
+          <a href="images/tmwe-1.jpg" data-lb><img src="images/tmwe-1.jpg" alt="First dance" loading="lazy"></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head"><span class="tag">About me</span><h2>Part builder, part documenter</h2></div>
+      <div class="about-grid">
+        <div>
+          <p>I'm an Information Technology student at Saint Columban College, currently serving as Project Manager on a three-person capstone team. My work spans both ends of a system's lifecycle: writing the requirements and test documentation that make a project defensible to a review panel, and building the code that makes it real.</p>
+          <p>Outside of coursework, I take on freelance web-building and teaching work — most recently a complete booking website for a wedding organizer. I like translating serious systems into more approachable ones, including a pixel-art game built around my own capstone's feature set.</p>
+        </div>
+        <ul class="focus-list">
+          <li><span>Backend development</span><span>Laravel / PHP</span></li>
+          <li><span>Front-end &amp; web</span><span>HTML / CSS / JS</span></li>
+          <li><span>CMS</span><span>WordPress (3+ months)</span></li>
+          <li><span>Data &amp; infrastructure</span><span>PostgreSQL / Supabase</span></li>
+          <li><span>Quality assurance</span><span>System testing</span></li>
+          <li><span>Documentation</span><span>SRS / SDD / IT plans</span></li>
+          <li><span>Delivery</span><span>Project management</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="skills">
+    <div class="wrap">
+      <div class="section-head"><span class="tag">Toolbox</span><h2>Skills &amp; tools</h2></div>
+      <div class="skills-grid">
+        <div class="skill-group"><h3>Backend</h3><ul><li>Laravel</li><li>PHP</li><li>REST APIs</li></ul></div>
+        <div class="skill-group"><h3>Front-end</h3><ul><li>HTML &amp; CSS</li><li>JavaScript</li><li>Responsive design</li></ul></div>
+        <div class="skill-group"><h3>CMS &amp; websites</h3><ul><li>WordPress <span class="exp-badge">3+ months</span></li><li>Website building</li><li>Content management</li></ul></div>
+        <div class="skill-group"><h3>Data &amp; infra</h3><ul><li>PostgreSQL</li><li>Supabase</li><li>Vite</li></ul></div>
+        <div class="skill-group"><h3>Process &amp; QA</h3><ul><li>System testing</li><li>Requirements docs (SRS)</li><li>Project management</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head"><span class="tag">Journey</span><h2>Experience</h2></div>
+      <div class="worklog">
+        <div class="work-entry hl">
+          <div class="when">Sept 2026<span>Freelance</span></div>
+          <div>
+            <h3>Web Developer — The Miracle Wedding &amp; Events</h3>
+            <p>Designed and built the organizer's website and online booking system: package builder, availability calendar, booking agreement, client tracker and an admin dashboard for managing requests.</p>
+          </div>
+        </div>
+        <div class="work-entry">
+          <div class="when">Project<span>Web system</span></div>
+          <div>
+            <h3>NOSASAP</h3>
+            <p>A web-based system I built and deployed online, so anyone can open it and try it out.</p>
+            <p style="margin:0"><a href="https://nocap-mzaa.onrender.com/dashboard" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600">Try NOSASAP live →</a></p>
+          </div>
+        </div>
+        <div class="work-entry">
+          <div class="when">Ongoing<span>Capstone — Project Manager</span></div>
+          <div>
+            <h3>NOCAP — Nodal Clearance and Accountability Platform</h3>
+            <p>Leading a three-person team building a web-based clearance and accountability system for GRANSCIL at Saint Columban College, with RFID attendance, sanction tracking, and DSA clearance workflows on Laravel and PostgreSQL.</p>
+          </div>
+        </div>
+        <div class="work-entry">
+          <div class="when">Freelance</div>
+          <div>
+            <h3>Web Developer &amp; QA Assistant</h3>
+            <p>Assisted in developing and testing web-based systems using Laravel and PHP — website testing, database management, data entry, and troubleshooting to keep applications running smoothly.</p>
+          </div>
+        </div>
+        <div class="work-entry">
+          <div class="when">Freelance</div>
+          <div>
+            <h3>Teaching &amp; Website Building</h3>
+            <p>Took on small freelance gigs combining tutoring with building websites for individual clients, including WordPress sites.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="skills">
+    <div class="wrap">
+      <div class="section-head"><span class="tag">Portfolio</span><h2>Projects</h2></div>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="status completed">Completed · Sept 2026</div>
+          <h3>TMWE Booking Website</h3>
+          <p>Wedding organizer website with a 4-step booking flow, availability calendar, client tracker and admin dashboard.</p>
+          <div class="tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+          <div class="case-links"><a class="btn btn-ghost" href="tmwe-site/index.html" target="_blank" rel="noopener">Open demo</a></div>
+        </div>
+        <div class="project-card">
+          <div class="status in-progress">In progress</div>
+          <h3>NOCAP</h3>
+          <p>A Laravel + PostgreSQL clearance and accountability platform for the student council, covering RFID attendance, sanctions, and clearance workflows. Built the requirements, test documentation, and IT management plan alongside development.</p>
+          <div class="tech"><span>Laravel</span><span>PostgreSQL</span><span>Supabase</span><span>Vite</span></div>
+        </div>
+        <div class="project-card">
+          <div class="status completed">Live demo</div>
+          <h3>NOSASAP</h3>
+          <p>A web-based system deployed online and ready to try — open the dashboard and explore it yourself.</p>
+          <div class="tech"><span>Web App</span><span>Deployed on Render</span></div>
+          <div class="case-links"><a class="btn btn-ghost" href="https://nocap-mzaa.onrender.com/dashboard" target="_blank" rel="noopener">Try it live</a></div>
+        </div>
+        <div class="project-card">
+          <div class="status side">Side project</div>
+          <h3>NOCAP: Campus Life</h3>
+          <p>A pixel-art browser game translating NOCAP's own PRD into gameplay — explore campus buildings and take on five minigames tied to real campus locations.</p>
+          <div class="tech"><span>Pixel Art</span><span>Game Design</span><span>JavaScript</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card">
+        <div>
+          <h2 style="color:#fff;font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:14px">Let's work together</h2>
+          <p>Open to freelance work, internships, and collaboration on websites, Laravel or systems-documentation projects.</p>
+          <ul class="contact-list">
+            <li><span>Email</span><a href="mailto:jomariguadalquiver1@gmail.com">jomariguadalquiver1@gmail.com</a></li>
+            <li><span>Phone</span><a href="tel:+639095382660">0909 538 2660</a></li>
+            <li><span>WhatsApp</span><span style="font-weight:600">@cloud_guadal</span></li>
+            <li><span>Location</span><span>Pagadian City, Zamboanga del Sur, PH</span></li>
+          </ul>
+        </div>
+        <div class="availability">
+          <h3><span class="dot"></span>Currently available</h3>
+          <p>Reach out by email or phone — I usually respond within a day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>&copy; 2026 Jomari Guadalquiver</footer>
+
+<div class="lb" id="lb" aria-hidden="true"><img alt=""></div>
+<script>
+  (function(){
+    var lb=document.getElementById('lb'),img=lb.querySelector('img');
+    document.querySelectorAll('[data-lb]').forEach(function(a){
+      a.addEventListener('click',function(e){e.preventDefault();img.src=a.getAttribute('href');img.alt=a.querySelector('img').alt;lb.classList.add('on');});
+    });
+    lb.addEventListener('click',function(){lb.classList.remove('on');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on');});
+  })();
+</script>
+</body>
+</html>
